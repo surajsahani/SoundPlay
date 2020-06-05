@@ -9,5 +9,10 @@ Feeling more anxious than usual lately? While we could probably all use a wellne
 ![soundPlay](https://user-images.githubusercontent.com/22853459/83842403-83306380-a720-11ea-9f7a-b9993ab57f5c.gif)
 
 # Concepts implemented in the project
+1.Null Safety
+2.MediaPlayer
+3.Kotlin Android Extensions
+4.AppCompatActivity
+
 
 
