@@ -8,4 +8,4 @@ Feeling more anxious than usual lately? While we could probably all use a wellne
 
 # Concepts implemented in the project
 
-<a href="https://imgflip.com/gif/44241a"><img scr="https://imgflip.com/gif/44241a"/> </a>
+![soundPlay](https://user-images.githubusercontent.com/22853459/83842403-83306380-a720-11ea-9f7a-b9993ab57f5c.gif)
