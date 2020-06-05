@@ -13,6 +13,8 @@ Feeling more anxious than usual lately? While we could probably all use a wellne
 2.MediaPlayer <br />
 3.Kotlin Android Extensions <br />
 4.AppCompatActivity <br />
+5.Material Library. <br />
+6.Intents     <br />
 
 
 
