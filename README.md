@@ -13,7 +13,7 @@ Feeling more anxious than usual lately?. The Intention of meditation SoundPlay i
 2.MediaPlayer <br />
 3.Kotlin Android Extensions <br />
 4.AppCompatActivity <br />
-5.Material Library. <br />
+5.Material Library- Modular and customizable Material UI componets for Android <br />
 6.Intents     <br />
 
 
