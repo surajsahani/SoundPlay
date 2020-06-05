@@ -2,6 +2,7 @@
 This project is about 30 Days Coding Program By Google on Kotlin.
 30 Days of Kotlin with Google Developers is an initiative to improve the understanding of Kotlin and apply it in real projects using Google resources (codelabs, sessions with Googlers) between 7th May - 7th of June.
 
+https://github.com/surajsahani/30DaysOfKotlin/blob/master/LICENSE
 # SoundPlay 🎼
 SoundPlay. Just as the name of this meditation app states, SoundPlay is a portal to peace of mind.
 Feeling more anxious than usual lately?. The Intention of meditation SoundPlay includes increased focus, reduced stress, and mental health.
