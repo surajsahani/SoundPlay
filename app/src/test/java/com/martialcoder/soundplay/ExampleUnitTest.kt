@@ -1,4 +1,4 @@
-package com.example.soundplay
+package com.martialcoder.soundplay
 
 import org.junit.Test
 

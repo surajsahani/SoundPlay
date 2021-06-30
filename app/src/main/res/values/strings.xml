@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">SoundPlay</string>
     <string name="todo">TODO</string>
-    <string name="developer">Developed by - Suraj Kumar Sahani</string>
+    <string name="developer">Built with️<b>❤</b> by Martial</string>
     <!-- Category name for phrases [CHAR LIMIT=20] -->
-    <string name="category_phrases">Phrases</string>
+    <string name="category_phrases">Phrases</string>️
 
     <!-- Category name for the vocabulary words for colors [CHAR LIMIT=20] -->
     <string name="category_colors">Colors</string>

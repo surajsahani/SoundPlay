@@ -1,4 +1,4 @@
-package com.example.soundplay
+package com.martialcoder.soundplay
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

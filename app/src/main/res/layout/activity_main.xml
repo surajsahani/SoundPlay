@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@color/tan_background"
     android:orientation="vertical"
-    tools:context="com.example.soundplay.MainActivity">
-    <TextView
-        android:id="@+id/numbers"
-        style="@style/CategoryStyle"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="@string/category_numbers" />
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/buttonOne"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:background="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/buttonTwo"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:background="@android:color/holo_red_light" />
+
+    <Button
+        android:id="@+id/buttonThree"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:background="@android:color/holo_orange_dark" />
+
+    <Button
+        android:id="@+id/buttonFour"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:background="@android:color/holo_green_dark" />
+
+    <Button
+        android:id="@+id/buttonFive"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimaryDark" />
+
+    <Button
+        android:id="@+id/buttonSix"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:background="@android:color/holo_purple"/>
+
+    <Button
+        android:id="@+id/buttonSeven"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:background="@android:color/holo_blue_dark" />
 </LinearLayout>
