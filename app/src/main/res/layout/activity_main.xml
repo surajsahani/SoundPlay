@@ -14,6 +14,8 @@
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
         android:background="@color/colorAccent" />
 
     <Button
@@ -21,6 +23,8 @@
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
         android:background="@android:color/holo_red_light" />
 
     <Button
@@ -28,6 +32,8 @@
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
         android:background="@android:color/holo_orange_dark" />
 
     <Button
@@ -35,6 +41,8 @@
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
         android:background="@android:color/holo_green_dark" />
 
     <Button
@@ -42,6 +50,8 @@
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
         android:background="@color/colorPrimaryDark" />
 
     <Button
@@ -49,6 +59,8 @@
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
         android:background="@android:color/holo_purple"/>
 
     <Button
