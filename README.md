@@ -22,4 +22,5 @@ increased focus, reduced stress, and mental health.
         src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
 </a>  
 
-    [30 Days Of Kotlin.pdf]https://documentcloud.adobe.com/link/review?uri=urn:aaid:scds:US:de779367-5b4e-4c8d-8b69-3fe355d63e33
+    [30 Days Of Kotlin.pdf]
+https://documentcloud.adobe.com/link/review?uri=urn:aaid:scds:US:de779367-5b4e-4c8d-8b69-3fe355d63e33
