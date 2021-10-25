@@ -1,7 +1,6 @@
 # SoundPlay - Singing Bells
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
-SoundPlay project is about 30 Days Coding Program By Google on Kotlin.
 
 SoundPlay, Just as the name of this meditation app states, 
 SoundPlay is a portal to peace of mind. 
