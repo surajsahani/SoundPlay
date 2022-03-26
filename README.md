@@ -21,5 +21,4 @@ increased focus, reduced stress, and mental health.
         height="80"
         src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
 </a>  
-
 ![1](https://user-images.githubusercontent.com/22853459/160225563-d022e4e3-0aa8-4f06-82dd-05b4839e1c19.jpg)
