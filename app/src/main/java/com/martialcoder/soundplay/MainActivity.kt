@@ -15,9 +15,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initialize()
+    }
 
-        //Toast.makeText(this, "Touch your inner space", Toast.LENGTH_SHORT).show()
-
+    private fun initialize() {
         buttonOne.setOnClickListener {
 
             // generate a new random number
@@ -126,8 +127,6 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer?.start()
         }
         // Prepare asynchronously to not block the Main Thread
-
-
     }
 
 }
