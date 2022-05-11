@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Toast.makeText(this, "Touch your inner space", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Touch your inner space", Toast.LENGTH_SHORT).show()
 
         buttonOne.setOnClickListener {
 
