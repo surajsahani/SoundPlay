@@ -13,7 +13,7 @@ SoundPlay is a portal to peace of mind.
 Feeling more anxious than usual lately?. 
 The Intention of meditation SoundPlay includes 
 increased focus, reduced stress, and mental health.
-
+and project is built during Pandemic to help people cope-up with their mental Health Recognised by  30DaysOfKotlin Coding Bootcamp organized by Google India 🔍🇮🇳.
 
 <p align="left">
 <a href="https://play.google.com/store/apps/details?id=com.martialcoder.soundplay">
