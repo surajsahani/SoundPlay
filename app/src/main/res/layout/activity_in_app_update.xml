@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2D3F0">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hello_world"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:layout_centerInParent="true" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_centerHorizontal="true"
+        android:text="click_me"
+        android:layout_marginTop="20sp"
+        android:textAllCaps="false"
+        android:background="#E729E4"
+        android:padding="12dp" />
+
+</RelativeLayout>
