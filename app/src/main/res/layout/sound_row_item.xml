@@ -11,7 +11,6 @@
 
         <ImageView
             android:id="@+id/user_image"
-            imageUrl="@{pull.user.imageUrl}"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginEnd="16dp"
@@ -25,7 +24,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:text="@{pull.title}"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/user_name"
@@ -37,7 +35,6 @@
             android:id="@+id/user_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{`created by: ` + pull.user.userName}"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/user_image"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,8 +43,6 @@
 
         <TextView
             android:id="@+id/create_date"
-            date="@{pull.createdDate}"
-            dateLabel="@{`created`}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -58,8 +53,6 @@
 
         <TextView
             android:id="@+id/close_date"
-            date="@{pull.closedDate}"
-            dateLabel="@{`closed`}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="textEnd"
