@@ -1,4 +1,4 @@
-package com.martialcoder.soundplay
+package com.martial.soundplay
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

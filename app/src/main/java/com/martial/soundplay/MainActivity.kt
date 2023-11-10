@@ -1,13 +1,11 @@
-package com.martialcoder.soundplay
+package com.martial.soundplay
 
-import android.database.DatabaseUtils
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.martialcoder.soundplay.databinding.ActivityMainBinding
+import com.martial.soundplay.databinding.ActivityMainBinding
 import java.util.*
 
 

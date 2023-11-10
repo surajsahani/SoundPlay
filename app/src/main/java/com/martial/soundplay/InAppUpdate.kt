@@ -1,9 +1,10 @@
-package com.martialcoder.soundplay
+package com.martial.soundplay
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.material.snackbar.Snackbar
 
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -12,7 +13,6 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.material.snackbar.Snackbar
 
 
 class InAppUpdate : AppCompatActivity() {
@@ -40,13 +40,13 @@ class InAppUpdate : AppCompatActivity() {
                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
             ) {
                 // Request the update.
-                appUpdateManager.startUpdateFlowForResult(
-                    appUpdateInfo,
-                    activityResultLauncher, //passing activity result launcher
-                    AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE)
-//                        .setAllowAssetPackDeletion(true)   //if you want to delete old version from all aceess use true other vise you dont need to clear old version then remove this line
-                        .build()
-                )
+//                appUpdateManager.startUpdateFlowForResult(
+//                    appUpdateInfo,
+//                    activityResultLauncher, //passing activity result launcher
+//                    AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE)
+////                        .setAllowAssetPackDeletion(true)   //if you want to delete old version from all aceess use true other vise you dont need to clear old version then remove this line
+//                        .build()
+//                )
             }
         }
         appUpdateManager.registerListener(listener)
