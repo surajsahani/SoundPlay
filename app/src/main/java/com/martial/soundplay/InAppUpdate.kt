@@ -4,6 +4,8 @@ import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
@@ -20,10 +22,18 @@ import com.google.android.play.core.install.model.UpdateAvailability
 
 class InAppUpdate : AppCompatActivity() {
     private var appUpdateManager: AppUpdateManager? = null
+    private lateinit var textViewUpdateStatus: TextView
+    private lateinit var progressBarUpdate: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_in_app_update)
+
+        textViewUpdateStatus = findViewById(R.id.textViewUpdateStatus)
+        progressBarUpdate = findViewById(R.id.progressBarUpdate)
+
+        textViewUpdateStatus.text = "Checking for updates..."
+
 
         appUpdateManager = AppUpdateManagerFactory.create(this)
         checkUpdate()
@@ -37,6 +47,7 @@ class InAppUpdate : AppCompatActivity() {
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
             ) {
+                textViewUpdateStatus.text = "Update available. Starting update..."
                 appUpdateManager?.startUpdateFlowForResult(
                     appUpdateInfo,
                     AppUpdateType.IMMEDIATE,
@@ -75,6 +86,9 @@ class InAppUpdate : AppCompatActivity() {
         progressDialog.setCancelable(false)
         progressDialog.show()
 
+        textViewUpdateStatus.text = "Update in progress..."
+        progressBarUpdate.visibility = ProgressBar.VISIBLE
+
         /*Snackbar.make(
             findViewById(android.R.id.content),
             "Update in progress...",
@@ -95,6 +109,8 @@ class InAppUpdate : AppCompatActivity() {
            when(resultCode){
                RESULT_OK -> {
                    Toast.makeText(this,"Update Success",Toast.LENGTH_SHORT).show()
+                   progressBarUpdate.visibility = ProgressBar.INVISIBLE
+                   textViewUpdateStatus.text = "Update Success"
                    startActivity()
 
                }
