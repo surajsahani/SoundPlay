@@ -13,6 +13,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private var mediaPlayer: MediaPlayer? = null
     private lateinit var binding : ActivityMainBinding
+    private var isUpdateChecked = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -132,8 +133,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val inAppUpdateIntent = Intent(this, InAppUpdate::class.java)
-        startActivity(inAppUpdateIntent)
+        if (!isUpdateChecked) {
+            val inAppUpdateIntent = Intent(this, InAppUpdate::class.java)
+            startActivity(inAppUpdateIntent)
+            isUpdateChecked = true
+        }
+
     }
 
 }

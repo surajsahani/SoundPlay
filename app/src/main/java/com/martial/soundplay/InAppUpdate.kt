@@ -95,21 +95,24 @@ class InAppUpdate : AppCompatActivity() {
            when(resultCode){
                RESULT_OK -> {
                    Toast.makeText(this,"Update Success",Toast.LENGTH_SHORT).show()
-                   val mainActivityIntent = Intent(this, MainActivity::class.java)
-                   startActivity(mainActivityIntent)
-                   finish()
+                   startActivity()
+
                }
                RESULT_CANCELED -> {
                    Toast.makeText(this,"Update Cancelled",Toast.LENGTH_SHORT).show()
-                   val mainActivityIntent = Intent(this, MainActivity::class.java)
-                   startActivity(mainActivityIntent)
-                   finish()
+                   startActivity()
+
                }
                RESULT_IN_APP_UPDATE_FAILED -> {
                    Toast.makeText(this,"Update Failed",Toast.LENGTH_SHORT).show()
                }
            }
         }
+    }
+    private fun startActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }
