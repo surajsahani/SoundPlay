@@ -1,5 +1,6 @@
 package com.martial.soundplay
 
+import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -127,6 +128,12 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer?.start()
         }
         // Prepare asynchronously to not block the Main Thread
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val inAppUpdateIntent = Intent(this, InAppUpdate::class.java)
+        startActivity(inAppUpdateIntent)
     }
 
 }
