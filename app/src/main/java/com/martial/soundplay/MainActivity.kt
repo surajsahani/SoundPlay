@@ -1,5 +1,6 @@
 package com.martial.soundplay
 
+import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -12,6 +13,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private var mediaPlayer: MediaPlayer? = null
     private lateinit var binding : ActivityMainBinding
+    private var isUpdateChecked = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -127,6 +129,16 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer?.start()
         }
         // Prepare asynchronously to not block the Main Thread
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!isUpdateChecked) {
+            val inAppUpdateIntent = Intent(this, InAppUpdate::class.java)
+            startActivity(inAppUpdateIntent)
+            isUpdateChecked = true
+        }
+
     }
 
 }
