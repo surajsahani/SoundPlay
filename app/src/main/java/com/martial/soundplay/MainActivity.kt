@@ -13,11 +13,15 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private var mediaPlayer: MediaPlayer? = null
     private lateinit var binding : ActivityMainBinding
-    private var isUpdateChecked = false
+    private lateinit var inAppUpdate: InAppUpdate
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         initialize()
+        inAppUpdate = InAppUpdate(this)
     }
 
     private fun initialize() {
@@ -131,14 +135,19 @@ class MainActivity : AppCompatActivity() {
         // Prepare asynchronously to not block the Main Thread
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        inAppUpdate.onActivityResult(requestCode,resultCode, data)
+    }
+
     override fun onResume() {
         super.onResume()
-        if (!isUpdateChecked) {
-            val inAppUpdateIntent = Intent(this, InAppUpdate::class.java)
-            startActivity(inAppUpdateIntent)
-            isUpdateChecked = true
-        }
+        inAppUpdate.onResume()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        inAppUpdate.onDestroy()
     }
 
 }

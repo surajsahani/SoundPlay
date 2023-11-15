@@ -1,134 +1,115 @@
-package com.martial.soundplay
+package  com.martial.soundplay
 
-import android.app.ProgressDialog
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
-
+import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
-import com.google.android.play.core.install.model.ActivityResult.RESULT_IN_APP_UPDATE_FAILED
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 
+class InAppUpdate(activity: Activity) : InstallStateUpdatedListener {
 
-class InAppUpdate : AppCompatActivity() {
-    private var appUpdateManager: AppUpdateManager? = null
-    private lateinit var textViewUpdateStatus: TextView
-    private lateinit var progressBarUpdate: ProgressBar
+    private var appUpdateManager: AppUpdateManager
+    private val MY_REQUEST_CODE = 500
+    private var parentActivity: Activity = activity
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_in_app_update)
+    private var currentType = AppUpdateType.FLEXIBLE
 
-        textViewUpdateStatus = findViewById(R.id.textViewUpdateStatus)
-        progressBarUpdate = findViewById(R.id.progressBarUpdate)
+    init {
+        appUpdateManager = AppUpdateManagerFactory.create(parentActivity)
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
+           if (info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                if (info.updatePriority() == 5) {
+                    if (info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                        startUpdate(info, AppUpdateType.IMMEDIATE)
+                    }
+                } else if (info.updatePriority() == 4) {
+                    val clientVersionStalenessDays = info.clientVersionStalenessDays()
+                    if (clientVersionStalenessDays != null && clientVersionStalenessDays >= 5 && info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                        startUpdate(info, AppUpdateType.IMMEDIATE)
+                    } else if (clientVersionStalenessDays != null && clientVersionStalenessDays >= 3 && info.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                        startUpdate(info, AppUpdateType.FLEXIBLE)
+                    }
+                } else if (info.updatePriority() == 3) {
+                    val clientVersionStalenessDays = info.clientVersionStalenessDays()
+                    if (clientVersionStalenessDays != null && clientVersionStalenessDays >= 30 && info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                        startUpdate(info, AppUpdateType.IMMEDIATE)
+                    } else if (clientVersionStalenessDays != null && clientVersionStalenessDays >= 15 && info.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                        startUpdate(info, AppUpdateType.FLEXIBLE)
+                    }
+                } else if (info.updatePriority() == 2) { // Priority: 2
+                    val clientVersionStalenessDays = info.clientVersionStalenessDays()
+                    if (clientVersionStalenessDays != null && clientVersionStalenessDays >= 90 && info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                        startUpdate(info, AppUpdateType.IMMEDIATE)
+                    } else if (clientVersionStalenessDays != null && clientVersionStalenessDays >= 30 && info.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                        startUpdate(info, AppUpdateType.FLEXIBLE)
+                    }
+                } else if (info.updatePriority() == 1) { // Priority: 1
+                    startUpdate(info, AppUpdateType.FLEXIBLE)
+                } else {
+                }
+            } else {
 
-        textViewUpdateStatus.text = "Checking for updates..."
+            }
+        }
+        appUpdateManager.registerListener(this)
+}
 
 
-        appUpdateManager = AppUpdateManagerFactory.create(this)
-        checkUpdate()
-
-
+    private fun startUpdate(info: AppUpdateInfo, type: Int) {
+        appUpdateManager.startUpdateFlowForResult(info, type, parentActivity, MY_REQUEST_CODE)
+        currentType = type
     }
 
-    private fun checkUpdate() {
-        val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
-        appUpdateInfoTask?.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
-            ) {
-                textViewUpdateStatus.text = "Update available. Starting update..."
-                appUpdateManager?.startUpdateFlowForResult(
-                    appUpdateInfo,
-                    AppUpdateType.IMMEDIATE,
-                    this,
-                    Companion.REQUEST_CODE
-                )
+    fun onResume() {
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
+            if (currentType == AppUpdateType.FLEXIBLE) {
+                if (info.installStatus() == InstallStatus.DOWNLOADED)
+                    flexibleUpdateDownloadCompleted()
+            } else if (currentType == AppUpdateType.IMMEDIATE) {
+                if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                    startUpdate(info, AppUpdateType.IMMEDIATE)
+                }
             }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        inProgressUpdate()
-    }
-
-    private fun inProgressUpdate(){
-        val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
-        appUpdateInfoTask?.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
-            ) {
-                showProgressDialogOrSnackbar()
-                appUpdateManager?.startUpdateFlowForResult(
-                    appUpdateInfo,
-                    AppUpdateType.IMMEDIATE,
-                    this,
-                    Companion.REQUEST_CODE
-                )
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == MY_REQUEST_CODE) {
+            if (resultCode != AppCompatActivity.RESULT_OK) {
+                 Log.e("ERROR", "Update flow failed! Result code: $resultCode")
             }
         }
     }
 
-    private fun showProgressDialogOrSnackbar() {
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("Update in progress...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
-
-        textViewUpdateStatus.text = "Update in progress..."
-        progressBarUpdate.visibility = ProgressBar.VISIBLE
-
-        /*Snackbar.make(
-            findViewById(android.R.id.content),
-            "Update in progress...",
+    private fun flexibleUpdateDownloadCompleted() {
+        Snackbar.make(
+            parentActivity.findViewById(android.R.id.content),
+            "An update has just been downloaded.",
             Snackbar.LENGTH_INDEFINITE
-        ).show()
-        */          //If you want to show snack-bar instead of progress dialog
-
-
-    }
-
-    companion object {
-        private const val REQUEST_CODE = 100
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode== Companion.REQUEST_CODE){
-           when(resultCode){
-               RESULT_OK -> {
-                   Toast.makeText(this,"Update Success",Toast.LENGTH_SHORT).show()
-                   progressBarUpdate.visibility = ProgressBar.INVISIBLE
-                   textViewUpdateStatus.text = "Update Success"
-                   startActivity()
-
-               }
-               RESULT_CANCELED -> {
-                   Toast.makeText(this,"Update Cancelled",Toast.LENGTH_SHORT).show()
-                   startActivity()
-
-               }
-               RESULT_IN_APP_UPDATE_FAILED -> {
-                   Toast.makeText(this,"Update Failed",Toast.LENGTH_SHORT).show()
-               }
-           }
+        ).apply {
+            setAction("RESTART") { appUpdateManager.completeUpdate() }
+            setActionTextColor(Color.WHITE)
+            show()
         }
     }
-    private fun startActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+
+    fun onDestroy() {
+        appUpdateManager.unregisterListener(this)
+    }
+
+    override fun onStateUpdate(state: InstallState) {
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            flexibleUpdateDownloadCompleted()
+        }
     }
 
 }
