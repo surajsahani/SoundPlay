@@ -4,10 +4,19 @@ import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.martial.soundplay.databinding.ActivityMainBinding
 import java.util.*
+
+const val UPDATE_REQUEST_CODE = 524
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,15 +24,45 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var inAppUpdate: InAppUpdate
 
-
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { resultLauncher ->
+            if (resultLauncher.resultCode == RESULT_OK) {
+            }
+        }
+    private val appUpdateManager: AppUpdateManager by lazy {
+        AppUpdateManagerFactory.create(applicationContext)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         initialize()
-        inAppUpdate = InAppUpdate(this)
+        //inAppUpdate = InAppUpdate(this)
+
+        checkUpdate()
     }
 
+    private fun checkUpdate() {
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                appUpdateManager.startUpdateFlowForResult(
+                    it,
+                    this,
+                    AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE)
+                        .setAllowAssetPackDeletion(true)
+                        .build(),
+                    UPDATE_REQUEST_CODE
+                )
+                resultLauncher.launch(intent)
+            } else {
+                Toast.makeText(this, "No Update Available", Toast.LENGTH_SHORT).show()
+            }
+        }
+            .addOnFailureListener {
+                Toast.makeText(this, "Update Failed", Toast.LENGTH_SHORT).show()
+            }
+    }
     private fun initialize() {
         binding.buttonOne.setOnClickListener {
 
