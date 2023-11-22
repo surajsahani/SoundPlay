@@ -1,0 +1,58 @@
+Index: app/src/main/java/com/martial/soundplay/InAppUpdate.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.martial.soundplay\n\nimport androidx.appcompat.app.AppCompatActivity\nimport android.os.Bundle\nimport android.widget.Toast\nimport androidx.activity.result.contract.ActivityResultContracts\nimport com.google.android.material.snackbar.Snackbar\n\nimport com.google.android.play.core.appupdate.AppUpdateManager\nimport com.google.android.play.core.appupdate.AppUpdateManagerFactory\nimport com.google.android.play.core.appupdate.AppUpdateOptions\nimport com.google.android.play.core.install.InstallStateUpdatedListener\nimport com.google.android.play.core.install.model.AppUpdateType\nimport com.google.android.play.core.install.model.InstallStatus\nimport com.google.android.play.core.install.model.UpdateAvailability\n\n\nclass InAppUpdate : AppCompatActivity() {\n    private lateinit var appUpdateManager: AppUpdateManager\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_in_app_update)\n\n        appUpdateManager = AppUpdateManagerFactory.create(this)\n        checkUpdates()\n    }\n\n    private fun checkUpdates() {\n\n        // Returns an intent object that you use to check for an update.\n        val appUpdateInfoTask = appUpdateManager.appUpdateInfo\n\n        // Checks that the platform will allow the specified type of update.\n        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->\n            //update availability condition below code //means if update available\n            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE\n                // This example applies an immediate update. To apply a flexible update\n                // instead, pass in AppUpdateType.FLEXIBLE\n                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)\n            ) {\n                // Request the update.\n//                appUpdateManager.startUpdateFlowForResult(\n//                    appUpdateInfo,\n//                    activityResultLauncher, //passing activity result launcher\n//                    AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE)\n////                        .setAllowAssetPackDeletion(true)   //if you want to delete old version from all aceess use true other vise you dont need to clear old version then remove this line\n//                        .build()\n//                )\n            }\n        }\n        appUpdateManager.registerListener(listener)\n    }\n\n    private val listener = InstallStateUpdatedListener { state ->\n        //check the condition\n        if (state.installStatus() == InstallStatus.DOWNLOADED) {\n            popupSnakebarForCompleteUpdate()\n        }\n    }\n\n    private val activityResultLauncher = registerForActivityResult(\n        ActivityResultContracts.StartIntentSenderForResult()\n    ) { result: androidx.activity.result.ActivityResult ->\n        if (result.resultCode != RESULT_OK) {\n            Toast.makeText(this, \"Error\", Toast.LENGTH_SHORT).show()\n        }\n    }\n\n    fun popupSnakebarForCompleteUpdate() {\n        Snackbar.make(\n            findViewById(R.id.button),\n            \"An update has just been downloaded.\",\n            Snackbar.LENGTH_INDEFINITE\n        ).apply {\n            setAction(\"Install\") { appUpdateManager.completeUpdate() }\n                .setActionTextColor(getColor(android.R.color.holo_blue_dark))\n            show()\n        }\n    }\n\n    override fun onDestroy() {\n        super.onDestroy()\n        appUpdateManager.unregisterListener(listener)\n    }\n\n    override fun onResume() {\n        super.onResume()\n        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->\n            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {\n                popupSnakebarForCompleteUpdate()\n            }\n        }\n    }\n}\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/martial/soundplay/InAppUpdate.kt b/app/src/main/java/com/martial/soundplay/InAppUpdate.kt
+--- a/app/src/main/java/com/martial/soundplay/InAppUpdate.kt	(revision b6a866af7f000bfd35b34910391623e7ee6afd69)
++++ b/app/src/main/java/com/martial/soundplay/InAppUpdate.kt	(date 1699968524125)
+@@ -5,7 +5,6 @@
+ import android.widget.Toast
+ import androidx.activity.result.contract.ActivityResultContracts
+ import com.google.android.material.snackbar.Snackbar
+-
+ import com.google.android.play.core.appupdate.AppUpdateManager
+ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+ import com.google.android.play.core.appupdate.AppUpdateOptions
+@@ -40,13 +39,13 @@
+                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+             ) {
+                 // Request the update.
+-//                appUpdateManager.startUpdateFlowForResult(
+-//                    appUpdateInfo,
+-//                    activityResultLauncher, //passing activity result launcher
+-//                    AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE)
+-////                        .setAllowAssetPackDeletion(true)   //if you want to delete old version from all aceess use true other vise you dont need to clear old version then remove this line
+-//                        .build()
+-//                )
++                appUpdateManager.startUpdateFlowForResult(
++                    appUpdateInfo,
++                    activityResultLauncher, //passing activity result launcher
++                    AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE)
++//                        .setAllowAssetPackDeletion(true)   //if you want to delete old version from all aceess use true other vise you dont need to clear old version then remove this line
++                        .build()
++                )
+             }
+         }
+         appUpdateManager.registerListener(listener)
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'\n\nandroid {\n    compileSdkVersion 33\n    buildToolsVersion \"29.0.3\"\n\n    defaultConfig {\n        applicationId \"com.martial.soundplay\"\n        minSdkVersion 23\n        targetSdkVersion 33\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n    }\n    buildFeatures {\n        dataBinding = true\n        viewBinding = true\n    }\n}\n\ndependencies {\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\n    implementation \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n    implementation 'androidx.core:core-ktx:1.6.0'\n    implementation 'androidx.appcompat:appcompat:1.6.1'\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'\n    implementation 'com.google.android.material:material:1.6.0'\n    testImplementation 'junit:junit:4.13.2'\n    androidTestImplementation 'androidx.test.ext:junit:1.1.5'\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'\n    // debugImplementation because LeakCanary should only run in debug builds.\n    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'\n\n    // in app update\n    implementation 'com.google.android.play:core:1.10.3'\n\n    //implementation 'com.google.android.play:app-update:2.1.0'\n    // For Kotlin users also add the Kotlin extensions library for Play In-App Update:\n    //implementation 'com.google.android.play:app-update-ktx:2.1.0'\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision b6a866af7f000bfd35b34910391623e7ee6afd69)
++++ b/app/build.gradle	(date 1699939701094)
+@@ -43,6 +43,8 @@
+     // in app update
+     implementation 'com.google.android.play:core:1.10.3'
+ 
++    implementation 'com.google.android.play:app-update-ktx:2.0.1'
++
+     //implementation 'com.google.android.play:app-update:2.1.0'
+     // For Kotlin users also add the Kotlin extensions library for Play In-App Update:
+     //implementation 'com.google.android.play:app-update-ktx:2.1.0'

@@ -16,7 +16,6 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.martial.soundplay.databinding.ActivityMainBinding
 import java.util.*
 
-const val UPDATE_REQUEST_CODE = 524
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,14 +23,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var inAppUpdate: InAppUpdate
 
-    private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { resultLauncher ->
-            if (resultLauncher.resultCode == RESULT_OK) {
-            }
-        }
-    private val appUpdateManager: AppUpdateManager by lazy {
-        AppUpdateManagerFactory.create(applicationContext)
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -39,30 +30,8 @@ class MainActivity : AppCompatActivity() {
         initialize()
         //inAppUpdate = InAppUpdate(this)
 
-        checkUpdate()
     }
 
-    private fun checkUpdate() {
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-        appUpdateInfoTask.addOnSuccessListener {
-            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                appUpdateManager.startUpdateFlowForResult(
-                    it,
-                    this,
-                    AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE)
-                        .setAllowAssetPackDeletion(true)
-                        .build(),
-                    UPDATE_REQUEST_CODE
-                )
-                resultLauncher.launch(intent)
-            } else {
-                Toast.makeText(this, "No Update Available", Toast.LENGTH_SHORT).show()
-            }
-        }
-            .addOnFailureListener {
-                Toast.makeText(this, "Update Failed", Toast.LENGTH_SHORT).show()
-            }
-    }
     private fun initialize() {
         binding.buttonOne.setOnClickListener {
 
@@ -174,19 +143,19 @@ class MainActivity : AppCompatActivity() {
         // Prepare asynchronously to not block the Main Thread
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        inAppUpdate.onActivityResult(requestCode,resultCode, data)
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        inAppUpdate.onActivityResult(requestCode,resultCode, data)
+//    }
 
     override fun onResume() {
         super.onResume()
-        inAppUpdate.onResume()
+        //inAppUpdate.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        inAppUpdate.onDestroy()
+        //inAppUpdate.onDestroy()
     }
 
 }
