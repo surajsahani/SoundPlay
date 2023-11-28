@@ -31,57 +31,56 @@ class SplashScreenActivity : AppCompatActivity(), InstallStateUpdatedListener {
     lateinit var handler: Handler
 
 
-//    private val resultLauncher =
-//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { resultLauncher ->
-//            if (resultLauncher.resultCode == RESULT_OK) {
-//            }
-//        }
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { resultLauncher ->
+            if (resultLauncher.resultCode == RESULT_OK) {
+            }
+        }
     private val appUpdateManager: AppUpdateManager by lazy {
         AppUpdateManagerFactory.create(applicationContext)
     }
 
-    private val appUpdateListener: InstallStateUpdatedListener by lazy {
-        InstallStateUpdatedListener { state ->
-            if (state.installStatus() == InstallStatus.DOWNLOADED) {
-                showSnackbarForCompleteUpdate()
-                startNextActivity(MainActivity::class.java)
-            } else if (state.installStatus() == InstallStatus.INSTALLED) {
-                appUpdateManager.unregisterListener(this)
-            } else {
-                Log.d(TAG, "InstallStateUpdatedListener: state: " + state.installStatus());
-            }
-        }
-    }
+//    private val appUpdateListener: InstallStateUpdatedListener by lazy {
+//        InstallStateUpdatedListener { state ->
+//            if (state.installStatus() == InstallStatus.DOWNLOADED) {
+//                // show progress bar
+//                showSnackbarForCompleteUpdate()
+//                startNextActivity(MainActivity::class.java)
+//            } else if (state.installStatus() == InstallStatus.INSTALLED) {
+//                appUpdateManager.unregisterListener(this)
+//            } else {
+//                Log.d(TAG, "InstallStateUpdatedListener: state: " + state.installStatus());
+//            }
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-
-        checkUpdate()
     }
 
     override fun onResume() {
         super.onResume()
-
-        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-                popupSnackbarForCompleteUpdate()
-            }
-
-            try {
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                    // If an in-app update is already running, resume the update.
-                    appUpdateManager.startUpdateFlowForResult(
-                        appUpdateInfo,
-                        AppUpdateType.IMMEDIATE,
-                        this,
-                        UPDATE_REQUEST_CODE
-                    )
-                }
-            } catch (e: IntentSender.SendIntentException) {
-                e.printStackTrace()
-            }
-        }
+        checkUpdate()
+//        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+//            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+//                popupSnackbarForCompleteUpdate()
+//            }
+//
+//            try {
+//                if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+//                    // If an in-app update is already running, resume the update.
+//                    appUpdateManager.startUpdateFlowForResult(
+//                        appUpdateInfo,
+//                        AppUpdateType.IMMEDIATE,
+//                        this,
+//                        UPDATE_REQUEST_CODE
+//                    )
+//                }
+//            } catch (e: IntentSender.SendIntentException) {
+//                e.printStackTrace()
+//            }
+//        }
     }
 
     private fun checkUpdate() {
@@ -90,52 +89,52 @@ class SplashScreenActivity : AppCompatActivity(), InstallStateUpdatedListener {
 
         appUpdateInfoTask.addOnSuccessListener {
 
-            val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-            appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                        appUpdateManager.startUpdateFlowForResult(
-                            appUpdateInfo,
-                            AppUpdateType.FLEXIBLE,
-                            this,
-                            UPDATE_REQUEST_CODE)
-                        appUpdateManager.registerListener(this)
-                    } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                        appUpdateManager.startUpdateFlowForResult(
-                            appUpdateInfo,
-                            AppUpdateType.IMMEDIATE,
-                            this,
-                            UPDATE_REQUEST_CODE)
-                        appUpdateManager.registerListener(this)
-                    }
-                }
-
-                if (appUpdateInfo.installStatus() == InstallStatus.INSTALLED) {
-                    popupSnackbarForState("An update has just been downloaded.", Snackbar.LENGTH_LONG)
-                }
-            }
-
-//            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-//                && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
-//            ) {
-//                appUpdateManager.startUpdateFlowForResult(
-//                    it,
-//                    this,
-//                    AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE)
-//                        .setAllowAssetPackDeletion(true).build(),
-//                    UPDATE_REQUEST_CODE
-//                )
-//                resultLauncher.launch(intent)
+//            val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+//            appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+//                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+//                    if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+//                        appUpdateManager.startUpdateFlowForResult(
+//                            appUpdateInfo,
+//                            AppUpdateType.FLEXIBLE,
+//                            this,
+//                            UPDATE_REQUEST_CODE)
+//                        appUpdateManager.registerListener(this)
+//                    } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+//                        appUpdateManager.startUpdateFlowForResult(
+//                            appUpdateInfo,
+//                            AppUpdateType.IMMEDIATE,
+//                            this,
+//                            UPDATE_REQUEST_CODE)
+//                        appUpdateManager.registerListener(this)
+//                    }
+//                }
 //
-//            } else {
-//                startNextActivity(MainActivity::class.java)
-//                Toast.makeText(this, "No Update Available", Toast.LENGTH_SHORT).show()
+//                if (appUpdateInfo.installStatus() == InstallStatus.INSTALLED) {
+//                    popupSnackbarForState("An update has just been downloaded.", Snackbar.LENGTH_LONG)
+//                }
 //            }
+
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
+                appUpdateManager.startUpdateFlowForResult(
+                    it,
+                    this,
+                    AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE)
+                        .setAllowAssetPackDeletion(true).build(),
+                    UPDATE_REQUEST_CODE
+                )
+                resultLauncher.launch(intent)
+
+            } else {
+                startNextActivity(MainActivity::class.java)
+                Toast.makeText(this, "No Update Available", Toast.LENGTH_SHORT).show()
+            }
         }
-//            .addOnFailureListener {
-//                startNextActivity(MainActivity::class.java)
-//                Toast.makeText(this, "Update Failed", Toast.LENGTH_SHORT).show()
-//            }
+            .addOnFailureListener {
+                startNextActivity(MainActivity::class.java)
+                Toast.makeText(this, "Update Failed", Toast.LENGTH_SHORT).show()
+            }
     }
 
 
@@ -145,23 +144,23 @@ class SplashScreenActivity : AppCompatActivity(), InstallStateUpdatedListener {
     }
 
 
-    private fun showSnackbarForCompleteUpdate() {
-        try {
-            Snackbar.make(
-                window.decorView.rootView,
-                "An update has just been downloaded.",
-                Snackbar.LENGTH_INDEFINITE
-            ).apply {
-                setAction("RESTART") {
-                    appUpdateManager.unregisterListener(appUpdateListener)
-                    appUpdateManager.completeUpdate()
-                }
-                show()
-            }
-
-        } catch (e: Exception) {
-        }
-    }
+//    private fun showSnackbarForCompleteUpdate() {
+//        try {
+//            Snackbar.make(
+//                window.decorView.rootView,
+//                "An update has just been downloaded.",
+//                Snackbar.LENGTH_INDEFINITE
+//            ).apply {
+//                setAction("RESTART") {
+//                    appUpdateManager.unregisterListener(appUpdateListener)
+//                    appUpdateManager.completeUpdate()
+//                }
+//                show()
+//            }
+//
+//        } catch (e: Exception) {
+//        }
+//    }
 
     private fun requestUserToInstallUpdate() {
         val alertDialog = AlertDialog.Builder(this).create()
@@ -178,6 +177,8 @@ class SplashScreenActivity : AppCompatActivity(), InstallStateUpdatedListener {
 
     override fun onStateUpdate(state: InstallState) {
         if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            // After the update is downloaded, show Snackbar
+            // and request user confirmation to restart the app.
             popupSnackbarForCompleteUpdate()
         } else if (state.installStatus() == InstallStatus.INSTALLED) {
             popupSnackbarForState("An update has just been downloaded.", Snackbar.LENGTH_LONG)
