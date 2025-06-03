@@ -15,11 +15,6 @@ The Intention of meditation SoundPlay includes
 increased focus, reduced stress, and mental health.
 and project is built during Pandemic to help people cope-up with their mental Health Recognised by  30DaysOfKotlin Coding Bootcamp organized by Google India 🔍🇮🇳.
 
-<p align="left">
-<a href="https://play.google.com/store/apps/details?id=com.martialcoder.soundplay">
-    <img alt="Get it on Google Play"
-        height="80"
-        src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
-</a>  
+
     
 ![1](https://user-images.githubusercontent.com/22853459/160225563-d022e4e3-0aa8-4f06-82dd-05b4839e1c19.jpg)
