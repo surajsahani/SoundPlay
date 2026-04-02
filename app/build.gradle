@@ -3,20 +3,30 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace "com.martial.soundplay"
-    compileSdkVersion 33
+    compileSdkVersion 35
+
+    signingConfigs {
+        release {
+            storeFile file("../keystore/soundplay-release.jks")
+            storePassword "soundplay2024"
+            keyAlias "soundplay"
+            keyPassword "soundplay2024"
+        }
+    }
 
     defaultConfig {
-        applicationId "com.martial.soundplay"
+        applicationId "com.martial.soundplay2"
         minSdkVersion 23
-        targetSdkVersion 33
-        versionCode 15
-        versionName "15.0"
+        targetSdkVersion 35
+        versionCode 16
+        versionName "16.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -25,6 +35,13 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
     }
 }
 
