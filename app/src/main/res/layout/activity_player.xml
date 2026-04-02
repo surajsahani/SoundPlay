@@ -1,215 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_hero"
-    android:fillViewport="true">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
+    <!-- Top bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="48dp">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:tint="@color/on_surface"
+            android:contentDescription="Close" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:letterSpacing="0.15"
+            android:text="AETHER"
+            android:textColor="@color/on_surface"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="Settings" />
+    </LinearLayout>
+
+    <!-- Large icon circle -->
+    <FrameLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="60dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_icon_circle" />
+
+        <ImageView
+            android:id="@+id/player_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_leaf"
+            android:contentDescription="Sound icon" />
+    </FrameLayout>
+
+    <!-- Glass control panel -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/bg_glass_panel"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        android:paddingBottom="32dp">
+        android:paddingVertical="24dp">
 
-        <!-- Top bar -->
+        <SeekBar
+            android:id="@+id/seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="4dp"
+            android:minHeight="4dp"
+            android:progressTint="@color/primary"
+            android:thumbTint="@color/primary_container"
+            android:progressBackgroundTint="@color/surface_container_highest" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:gravity="center_vertical">
-
-            <ImageButton
-                android:id="@+id/btn_close"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Close"
-                android:src="@drawable/ic_close" />
+            android:layout_marginTop="6dp">
 
             <TextView
+                android:id="@+id/tv_current"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:text="Meditation Session"
-                android:textColor="@color/on_surface"
-                android:textSize="16sp" />
+                android:text="12:45"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="11sp" />
 
-            <View
-                android:layout_width="44dp"
-                android:layout_height="44dp" />
+            <TextView
+                android:id="@+id/tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30:00"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="11sp" />
         </LinearLayout>
 
-        <!-- Large icon circle -->
-        <FrameLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="40dp">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_icon_circle" />
+        <!-- Controls -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical">
 
             <ImageView
-                android:id="@+id/player_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_prev"
+                android:contentDescription="Previous" />
+
+            <ImageView
+                android:id="@+id/btn_play_pause"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_gravity="center"
-                android:contentDescription="Sound icon" />
-        </FrameLayout>
+                android:layout_marginHorizontal="32dp"
+                android:background="@drawable/bg_play_button"
+                android:padding="18dp"
+                android:src="@drawable/ic_pause"
+                android:contentDescription="Play/Pause" />
 
-        <!-- Title -->
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_next"
+                android:contentDescription="Next" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bottom info row -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_volume"
+            android:tint="@color/on_surface_variant"
+            android:contentDescription="Volume" />
+
         <TextView
-            android:id="@+id/player_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:fontFamily="sans-serif-medium"
-            android:letterSpacing="-0.02"
-            android:textColor="@color/on_surface"
-            android:textSize="28sp" />
+            android:layout_marginStart="4dp"
+            android:text="65%"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="11sp" />
 
-        <!-- Tags -->
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="24dp"
+            android:src="@drawable/ic_timer_small"
+            android:contentDescription="Timer" />
+
         <TextView
-            android:id="@+id/player_tags"
+            android:id="@+id/tv_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif"
+            android:layout_marginStart="4dp"
             android:letterSpacing="0.05"
+            android:text="15M REMAINING"
             android:textAllCaps="true"
             android:textColor="@color/on_surface_variant"
             android:textSize="11sp" />
 
-        <!-- Glass controls panel -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:background="@drawable/bg_glass_panel"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="28dp">
-
-            <SeekBar
-                android:id="@+id/seek_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxHeight="4dp"
-                android:minHeight="4dp"
-                android:progressTint="@color/primary"
-                android:thumbTint="@color/surface_container_lowest"
-                android:progressBackgroundTint="@color/surface_container_highest" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:id="@+id/tv_current_time"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="0:00"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_total_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0:00"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <!-- Playback controls -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_vertical">
-
-                <ImageButton
-                    android:id="@+id/btn_prev"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Previous"
-                    android:src="@drawable/ic_skip_back" />
-
-                <ImageButton
-                    android:id="@+id/btn_play_pause"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginHorizontal="36dp"
-                    android:background="@drawable/bg_play_button"
-                    android:contentDescription="Play/Pause"
-                    android:padding="18dp"
-                    android:src="@drawable/ic_pause" />
-
-                <ImageButton
-                    android:id="@+id/btn_next"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Next"
-                    android:src="@drawable/ic_skip_forward" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Bottom action row (volume, timer, stop, bookmark) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bg_daily_ritual"
-            android:gravity="center"
-            android:paddingVertical="16dp">
-
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="12dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Volume"
-                android:src="@drawable/ic_whitenoise"
-                android:padding="12dp" />
-
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="12dp"
-                android:background="@drawable/bg_icon_circle"
-                android:contentDescription="Timer"
-                android:src="@drawable/ic_timer"
-                android:padding="12dp" />
-
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="12dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Stop"
-                android:src="@drawable/ic_close"
-                android:padding="12dp" />
-
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="12dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Bookmark"
-                android:src="@drawable/ic_bookmark"
-                android:padding="12dp" />
-        </LinearLayout>
-
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="24dp"
+            android:src="@drawable/ic_heart"
+            android:tint="@color/on_surface"
+            android:contentDescription="Favorite" />
     </LinearLayout>
-</ScrollView>
+
+</LinearLayout>
