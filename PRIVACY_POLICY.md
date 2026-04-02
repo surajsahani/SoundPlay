@@ -1,6 +1,6 @@
 **Privacy Policy**
 
-Suraj Sahani built the SoundPlay app as a Free app. This SERVICE is provided by Suraj Sahani at no cost and is intended for use as is.
+Suraj Sahani built the SoundPlay app as a Paid app. This SERVICE is provided by Suraj Sahani and is intended for use as is.
 
 This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.
 
