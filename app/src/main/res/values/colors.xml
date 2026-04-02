@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-    <!-- Primary color of the app (shown in the app bar) -->
-    <color name="primary_color">#4A312A</color>
+    <!-- Aetherial Minimalism: The Mist Palette -->
+    <color name="primary">#276869</color>
+    <color name="on_primary">#E0FFFE</color>
+    <color name="primary_container">#AFEEED</color>
+    <color name="on_primary_container">#155B5B</color>
+    <color name="primary_fixed_dim">#A1E0DF</color>
 
-    <!-- Primary dark color of the app (shown in the status bar) -->
-    <color name="primary_dark_color">#2F1D1A</color>
+    <color name="surface">#F8FAFA</color>
+    <color name="surface_container_lowest">#FFFFFF</color>
+    <color name="surface_container_low">#F0F4F4</color>
+    <color name="surface_container">#EAEFEF</color>
+    <color name="surface_container_high">#E4E9E9</color>
+    <color name="surface_container_highest">#DEE3E3</color>
 
-    <!-- Background color for app -->
-    <color name="tan_background">#FFF7DA</color>
+    <color name="on_surface">#2D3435</color>
+    <color name="on_surface_variant">#5A6364</color>
+    <color name="outline_variant">#ACB3B4</color>
 
-    <!-- Background color for the numbers category -->
-    <color name="category_numbers">#FD8E09</color>
+    <!-- Gradient endpoints -->
+    <color name="gradient_start">#AFEEED</color>
+    <color name="gradient_end">#F8FAFA</color>
 
-    <!-- Background color for the family members category -->
-    <color name="category_family">#379237</color>
-
-    <!-- Background color for the colors category -->
-    <color name="category_colors">#8800A0</color>
-
-    <!-- Background color for the phrases category -->
-    <color name="category_phrases">#16AFCA</color>
+    <!-- Glass overlay -->
+    <color name="glass_white_60">#99FFFFFF</color>
+    <color name="shadow_4_percent">#0A2D3435</color>
 </resources>

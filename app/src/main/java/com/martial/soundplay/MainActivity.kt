@@ -1,88 +1,67 @@
 package com.martial.soundplay
 
-import android.graphics.Color
-import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.martial.soundplay.audio.AudioPlayerManager
 import com.martial.soundplay.databinding.ActivityMainBinding
-import java.util.*
-
-
+import com.martial.soundplay.ui.PlayerActivity
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
-    private var mediaPlayer: MediaPlayer? = null
-    private var isPlaying = false
-    private lateinit var binding : ActivityMainBinding
+
+    private lateinit var binding: ActivityMainBinding
+    private val audioManager = AudioPlayerManager.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        initialize()
-    }
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        binding.bottomNav.setupWithNavController(navHostFragment.navController)
 
-    private fun playSound(resId: Int) {
-        if (isPlaying) {
-            mediaPlayer?.release()
-            mediaPlayer = null
+        // Mini player controls
+        binding.miniPlayer.miniPlayBtn.setOnClickListener {
+            audioManager.togglePlayPause()
         }
-        isPlaying = true
-        mediaPlayer = MediaPlayer.create(this, resId)
-        mediaPlayer?.setOnCompletionListener {
-            isPlaying = false
-            it.release()
-            mediaPlayer = null
-        }
-        mediaPlayer?.setOnErrorListener { mp, _, _ ->
-            isPlaying = false
-            mp.release()
-            mediaPlayer = null
-            true
-        }
-        mediaPlayer?.start()
-    }
 
-    private fun initialize() {
-        binding.buttonOne.setOnClickListener {
-            it.setBackgroundColor(randomColor())
-            playSound(R.raw.first)
+        binding.miniPlayer.miniCloseBtn.setOnClickListener {
+            audioManager.release()
+            binding.miniPlayer.root.visibility = View.GONE
         }
-        binding.buttonTwo.setOnClickListener {
-            it.setBackgroundColor(randomColor())
-            playSound(R.raw.sound_file_3)
+
+        binding.miniPlayer.root.setOnClickListener {
+            startActivity(Intent(this, PlayerActivity::class.java))
         }
-        binding.buttonThree.setOnClickListener {
-            it.setBackgroundColor(randomColor())
-            playSound(R.raw.sound_file_4)
+
+        // Observe playback state for mini player
+        audioManager.currentSound.observe(this) { sound ->
+            sound?.let {
+                binding.miniPlayer.miniTitle.text = it.name
+                binding.miniPlayer.miniTags.text = it.tags
+                binding.miniPlayer.miniIcon.setImageResource(it.iconResId)
+            }
         }
-        binding.buttonFour.setOnClickListener {
-            it.setBackgroundColor(randomColor())
-            playSound(R.raw.third)
-        }
-        binding.buttonFive.setOnClickListener {
-            it.setBackgroundColor(randomColor())
-            playSound(R.raw.sound_file_5)
-        }
-        binding.buttonSix.setOnClickListener {
-            it.setBackgroundColor(randomColor())
-            playSound(R.raw.sound_file_6)
-        }
-        binding.buttonSeven.setOnClickListener {
-            it.setBackgroundColor(randomColor())
-            playSound(R.raw.seven)
+
+        audioManager.isPlaying.observe(this) { playing ->
+            binding.miniPlayer.miniPlayBtn.setImageResource(
+                if (playing) R.drawable.ic_pause else R.drawable.ic_play
+            )
         }
     }
 
-    private fun randomColor(): Int {
-        val random = Random()
-        return Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
+    fun showMiniPlayer() {
+        binding.miniPlayer.root.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        audioManager.release()
     }
-
 }
