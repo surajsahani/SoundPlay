@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 keystore/
+keystore.properties
+upload_certificate.pem
