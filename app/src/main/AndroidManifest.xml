@@ -9,9 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_sound_app_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity
-            android:name=".InAppUpdate"
-            android:exported="false" />
 
         <activity android:name=".MainActivity"
             android:exported="true">

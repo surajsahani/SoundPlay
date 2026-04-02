@@ -1,18 +1,10 @@
 package com.martial.soundplay
 
-import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.appupdate.AppUpdateOptions
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.UpdateAvailability
 import com.martial.soundplay.databinding.ActivityMainBinding
 import java.util.*
 
@@ -20,142 +12,77 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private var mediaPlayer: MediaPlayer? = null
+    private var isPlaying = false
     private lateinit var binding : ActivityMainBinding
-    private lateinit var inAppUpdate: InAppUpdate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         initialize()
-        //inAppUpdate = InAppUpdate(this)
+    }
 
+    private fun playSound(resId: Int) {
+        if (isPlaying) {
+            mediaPlayer?.release()
+            mediaPlayer = null
+        }
+        isPlaying = true
+        mediaPlayer = MediaPlayer.create(this, resId)
+        mediaPlayer?.setOnCompletionListener {
+            isPlaying = false
+            it.release()
+            mediaPlayer = null
+        }
+        mediaPlayer?.setOnErrorListener { mp, _, _ ->
+            isPlaying = false
+            mp.release()
+            mediaPlayer = null
+            true
+        }
+        mediaPlayer?.start()
     }
 
     private fun initialize() {
         binding.buttonOne.setOnClickListener {
-
-            // generate a new random number
-            val random = Random()
-
-            // generate a background color using RBG
-            val color =
-                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
-
-            // set layout's background color
-            binding.buttonOne.setBackgroundColor(color)
-
-            mediaPlayer = MediaPlayer.create(this, R.raw.first)
-            mediaPlayer?.start()
+            it.setBackgroundColor(randomColor())
+            playSound(R.raw.first)
         }
         binding.buttonTwo.setOnClickListener {
-
-            // generate a new random number
-            val random = Random()
-
-            // generate a background color using RBG
-            val color =
-                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
-
-            // set layout's background color
-            binding.buttonTwo.setBackgroundColor(color)
-
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound_file_3)
-            mediaPlayer?.start()
+            it.setBackgroundColor(randomColor())
+            playSound(R.raw.sound_file_3)
         }
         binding.buttonThree.setOnClickListener {
-
-            // generate a new random number
-            val random = Random()
-
-            // generate a background color using RBG
-            val color =
-                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
-
-            // set layout's background color
-            binding.buttonThree.setBackgroundColor(color)
-
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound_file_4)
-            mediaPlayer?.start()
+            it.setBackgroundColor(randomColor())
+            playSound(R.raw.sound_file_4)
         }
         binding.buttonFour.setOnClickListener {
-
-            // generate a new random number
-            val random = Random()
-
-            // generate a background color using RBG
-            val color =
-                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
-
-            // set layout's background color
-            binding.buttonFour.setBackgroundColor(color)
-
-            mediaPlayer = MediaPlayer.create(this, R.raw.third)
-            mediaPlayer?.start()
+            it.setBackgroundColor(randomColor())
+            playSound(R.raw.third)
         }
         binding.buttonFive.setOnClickListener {
-
-            // generate a new random number
-            val random = Random()
-
-            // generate a background color using RBG
-            val color =
-                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
-
-            // set layout's background color
-            binding.buttonFive.setBackgroundColor(color)
-
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound_file_5)
-            mediaPlayer?.start()
+            it.setBackgroundColor(randomColor())
+            playSound(R.raw.sound_file_5)
         }
         binding.buttonSix.setOnClickListener {
-
-            // generate a new random number
-            val random = Random()
-
-            // generate a background color using RBG
-            val color =
-                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
-
-            // set layout's background color
-            binding.buttonSix.setBackgroundColor(color)
-
-
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound_file_6)
-            mediaPlayer?.start()
+            it.setBackgroundColor(randomColor())
+            playSound(R.raw.sound_file_6)
         }
         binding.buttonSeven.setOnClickListener {
-
-            // generate a new random number
-            val random = Random()
-
-            // generate a background color using RBG
-            val color =
-                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
-
-            // set layout's background color
-            binding.buttonSeven.setBackgroundColor(color)
-
-
-            mediaPlayer = MediaPlayer.create(this, R.raw.seven)
-            mediaPlayer?.start()
+            it.setBackgroundColor(randomColor())
+            playSound(R.raw.seven)
         }
-        // Prepare asynchronously to not block the Main Thread
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        inAppUpdate.onActivityResult(requestCode,resultCode, data)
-//    }
-
-    override fun onResume() {
-        super.onResume()
-        //inAppUpdate.onResume()
+    private fun randomColor(): Int {
+        val random = Random()
+        return Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        //inAppUpdate.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
 }
