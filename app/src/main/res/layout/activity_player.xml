@@ -6,20 +6,19 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <!-- Top bar -->
+    <!-- Top bar: X / AETHER / settings -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="48dp">
+        android:paddingTop="52dp">
 
         <ImageView
             android:id="@+id/btn_close"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:tint="@color/on_surface"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_close_x"
             android:contentDescription="Close" />
 
         <TextView
@@ -28,60 +27,75 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:letterSpacing="0.15"
+            android:letterSpacing="0.2"
             android:text="AETHER"
             android:textColor="@color/on_surface"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
         <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/ic_settings"
             android:contentDescription="Settings" />
     </LinearLayout>
 
-    <!-- Large icon circle -->
+    <!-- Spacer to push circle to vertical center area -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Icon circle with glow ring -->
     <FrameLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="60dp">
+        android:layout_width="220dp"
+        android:layout_height="220dp">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_icon_circle" />
+            android:background="@drawable/bg_icon_circle_glow" />
 
         <ImageView
             android:id="@+id/player_icon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_leaf"
             android:contentDescription="Sound icon" />
     </FrameLayout>
 
-    <!-- Glass control panel -->
+    <!-- Spacer -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Glass control panel at bottom -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginHorizontal="16dp"
         android:background="@drawable/bg_glass_panel"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="24dp">
+        android:paddingHorizontal="28dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="24dp">
 
+        <!-- Seekbar -->
         <SeekBar
             android:id="@+id/seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="4dp"
-            android:minHeight="4dp"
+            android:maxHeight="3dp"
+            android:minHeight="3dp"
+            android:progress="42"
+            android:max="100"
             android:progressTint="@color/primary"
             android:thumbTint="@color/primary_container"
             android:progressBackgroundTint="@color/surface_container_highest" />
 
+        <!-- Time labels -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,51 +119,50 @@
                 android:textSize="11sp" />
         </LinearLayout>
 
-        <!-- Controls -->
+        <!-- Prev / Play / Next -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_vertical">
 
             <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="6dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_prev"
                 android:contentDescription="Previous" />
 
             <ImageView
                 android:id="@+id/btn_play_pause"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginHorizontal="32dp"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:layout_marginHorizontal="36dp"
                 android:background="@drawable/bg_play_button"
-                android:padding="18dp"
+                android:padding="20dp"
                 android:src="@drawable/ic_pause"
                 android:contentDescription="Play/Pause" />
 
             <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="6dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_next"
                 android:contentDescription="Next" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Bottom info row -->
+    <!-- Bottom info: volume / timer / heart -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/ic_volume"
-            android:tint="@color/on_surface_variant"
+            android:tint="@color/on_surface"
             android:contentDescription="Volume" />
 
         <TextView
@@ -157,31 +170,30 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="65%"
-            android:textColor="@color/on_surface_variant"
+            android:textColor="@color/on_surface"
             android:textSize="11sp" />
 
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="28dp"
             android:src="@drawable/ic_timer_small"
             android:contentDescription="Timer" />
 
         <TextView
-            android:id="@+id/tv_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:letterSpacing="0.05"
             android:text="15M REMAINING"
             android:textAllCaps="true"
-            android:textColor="@color/on_surface_variant"
+            android:textColor="@color/on_surface"
             android:textSize="11sp" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="24dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="28dp"
             android:src="@drawable/ic_heart"
             android:tint="@color/on_surface"
             android:contentDescription="Favorite" />

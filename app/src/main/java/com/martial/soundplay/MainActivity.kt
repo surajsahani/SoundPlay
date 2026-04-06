@@ -29,151 +29,121 @@ class MainActivity : AppCompatActivity() {
         buildSoundList()
 
         binding.featuredCard.setOnClickListener {
-            AudioPlayerManager.play(SoundRepository.sounds.first())
+            AudioPlayerManager.play(SoundRepository.sounds[1]) // Singing Bowls
             startActivity(Intent(this, PlayerActivity::class.java))
         }
     }
 
     private fun buildSoundList() {
         val list = binding.soundList
-        val sounds = SoundRepository.sounds
-
-        sounds.forEachIndexed { index, sound ->
-            if (index == 0) {
-                list.addView(buildFirstItem(sound))
-            } else {
-                list.addView(buildSoundRow(sound))
-            }
+        SoundRepository.sounds.forEachIndexed { i, sound ->
+            list.addView(if (i == 0) buildFirstItem(sound) else buildSoundRow(sound))
         }
     }
 
-    // First item — bigger card with icon, name, tags, and play button
     private fun buildFirstItem(sound: Sound): LinearLayout {
-        val card = LinearLayout(this).apply {
+        val outer = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             setBackgroundResource(R.drawable.bg_first_sound)
-            setPadding((20 * dp).toInt(), (20 * dp).toInt(), (16 * dp).toInt(), (20 * dp).toInt())
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply { bottomMargin = (12 * dp).toInt() }
-            setOnClickListener { launchPlayer(sound) }
+            setPadding(d(16), d(16), d(12), d(16))
+            layoutParams = lp().apply { bottomMargin = d(14) }
+            setOnClickListener { launch(sound) }
         }
 
-        // Icon circle
+        // Large icon circle
         val iconFrame = FrameLayout(this).apply {
-            layoutParams = LinearLayout.LayoutParams((64 * dp).toInt(), (64 * dp).toInt())
+            layoutParams = LinearLayout.LayoutParams(d(72), d(72))
             setBackgroundResource(R.drawable.bg_icon_circle)
         }
         iconFrame.addView(ImageView(this).apply {
             setImageResource(sound.iconResId)
-            layoutParams = FrameLayout.LayoutParams((28 * dp).toInt(), (28 * dp).toInt()).apply {
-                gravity = Gravity.CENTER
-            }
+            layoutParams = FrameLayout.LayoutParams(d(28), d(28)).apply { gravity = Gravity.CENTER }
         })
-        card.addView(iconFrame)
+        outer.addView(iconFrame)
 
         // Text
-        val textCol = LinearLayout(this).apply {
+        val col = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
-                marginStart = (16 * dp).toInt()
+                marginStart = d(14)
             }
         }
-        textCol.addView(TextView(this).apply {
-            text = sound.name
-            setTextColor(getColor(R.color.on_surface))
-            textSize = 17f
-            typeface = android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL)
+        col.addView(tv(sound.name, R.color.on_surface, 16f, true))
+        col.addView(tv(sound.tags, R.color.on_surface_variant, 9f, false).apply {
+            isAllCaps = true; letterSpacing = 0.05f; setPadding(0, d(3), 0, 0)
         })
-        textCol.addView(TextView(this).apply {
-            text = sound.tags
-            setTextColor(getColor(R.color.on_surface_variant))
-            textSize = 10f
-            isAllCaps = true
-            letterSpacing = 0.05f
-            setPadding(0, (3 * dp).toInt(), 0, 0)
-        })
-        card.addView(textCol)
+        outer.addView(col)
 
-        // Play button
-        card.addView(ImageView(this).apply {
-            layoutParams = LinearLayout.LayoutParams((44 * dp).toInt(), (44 * dp).toInt())
+        // Teal play button
+        outer.addView(ImageView(this).apply {
+            layoutParams = LinearLayout.LayoutParams(d(44), d(44))
             setBackgroundResource(R.drawable.bg_play_button)
             setImageResource(R.drawable.ic_pause)
-            val pad = (10 * dp).toInt()
-            setPadding(pad, pad, pad, pad)
+            setPadding(d(11), d(11), d(11), d(11))
         })
 
-        return card
+        return outer
     }
 
-    // Regular sound row — pill shaped
     private fun buildSoundRow(sound: Sound): LinearLayout {
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             setBackgroundResource(R.drawable.bg_sound_row)
-            setPadding((6 * dp).toInt(), (6 * dp).toInt(), (6 * dp).toInt(), (6 * dp).toInt())
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply { bottomMargin = (10 * dp).toInt() }
-            setOnClickListener { launchPlayer(sound) }
+            setPadding(d(5), d(5), d(5), d(5))
+            layoutParams = lp().apply { bottomMargin = d(10) }
+            setOnClickListener { launch(sound) }
         }
 
         // Icon circle
         val iconFrame = FrameLayout(this).apply {
-            layoutParams = LinearLayout.LayoutParams((44 * dp).toInt(), (44 * dp).toInt())
+            layoutParams = LinearLayout.LayoutParams(d(48), d(48))
             setBackgroundResource(R.drawable.bg_icon_circle)
         }
         iconFrame.addView(ImageView(this).apply {
             setImageResource(sound.iconResId)
-            layoutParams = FrameLayout.LayoutParams((20 * dp).toInt(), (20 * dp).toInt()).apply {
-                gravity = Gravity.CENTER
-            }
+            layoutParams = FrameLayout.LayoutParams(d(22), d(22)).apply { gravity = Gravity.CENTER }
         })
         row.addView(iconFrame)
 
         // Text
-        val textCol = LinearLayout(this).apply {
+        val col = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
-                marginStart = (12 * dp).toInt()
+                marginStart = d(12)
             }
         }
-        textCol.addView(TextView(this).apply {
-            text = sound.name
-            setTextColor(getColor(R.color.on_surface))
-            textSize = 14f
-            typeface = android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL)
+        col.addView(tv(sound.name, R.color.on_surface, 14f, true))
+        col.addView(tv(sound.tags, R.color.on_surface_variant, 9f, false).apply {
+            isAllCaps = true; letterSpacing = 0.05f
         })
-        textCol.addView(TextView(this).apply {
-            text = sound.tags
-            setTextColor(getColor(R.color.on_surface_variant))
-            textSize = 9f
-            isAllCaps = true
-            letterSpacing = 0.05f
-        })
-        row.addView(textCol)
+        row.addView(col)
 
-        // Small play button
+        // Small play circle
         row.addView(ImageView(this).apply {
-            layoutParams = LinearLayout.LayoutParams((32 * dp).toInt(), (32 * dp).toInt()).apply {
-                marginEnd = (4 * dp).toInt()
-            }
+            layoutParams = LinearLayout.LayoutParams(d(34), d(34)).apply { marginEnd = d(4) }
             setBackgroundResource(R.drawable.bg_play_small)
-            setImageResource(R.drawable.ic_play)
-            val pad = (8 * dp).toInt()
-            setPadding(pad, pad, pad, pad)
+            setImageResource(R.drawable.ic_play_filled)
+            setPadding(d(9), d(9), d(9), d(9))
         })
 
         return row
     }
 
-    private fun launchPlayer(sound: Sound) {
+    private fun launch(sound: Sound) {
         AudioPlayerManager.play(sound)
         startActivity(Intent(this, PlayerActivity::class.java))
+    }
+
+    private fun d(v: Int) = (v * dp).toInt()
+    private fun lp() = LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+    )
+    private fun tv(text: String, colorRes: Int, size: Float, medium: Boolean) = TextView(this).apply {
+        this.text = text
+        setTextColor(getColor(colorRes))
+        textSize = size
+        if (medium) typeface = android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL)
     }
 }
