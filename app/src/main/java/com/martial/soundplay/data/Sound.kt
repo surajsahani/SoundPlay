@@ -6,5 +6,7 @@ data class Sound(
     val id: Int,
     val name: String,
     val tags: String,
-    @DrawableRes val iconResId: Int
+    @DrawableRes val iconResId: Int,
+    val category: String = "general",
+    var isFavorite: Boolean = false
 )

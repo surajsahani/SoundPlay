@@ -22,6 +22,11 @@
             android:name=".ui.PlayerActivity"
             android:theme="@style/Theme.SoundPlay"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:theme="@style/Theme.SoundPlay"
+            android:exported="false" />
     </application>
 
 </manifest>

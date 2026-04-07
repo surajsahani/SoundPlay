@@ -28,26 +28,59 @@ class MainActivity : AppCompatActivity() {
 
         buildSoundList()
 
+        AudioPlayerManager.onStateChanged = { runOnUiThread { updateNowPlaying() } }
+
+        applyTheme()
+
+        setupTabs()
+
+        binding.btnSettings.setOnClickListener {
+            startActivity(Intent(this, com.martial.soundplay.ui.SettingsActivity::class.java))
+        }
+
         binding.featuredCard.setOnClickListener {
-            AudioPlayerManager.play(SoundRepository.sounds[1]) // Singing Bowls
+            AudioPlayerManager.play(this, SoundRepository.sounds[1])
             startActivity(Intent(this, PlayerActivity::class.java))
         }
     }
 
     private fun buildSoundList() {
         val list = binding.soundList
-        SoundRepository.sounds.forEachIndexed { i, sound ->
-            list.addView(if (i == 0) buildFirstItem(sound) else buildSoundRow(sound))
+        SoundRepository.sounds.forEach { sound ->
+            list.addView(buildSoundRow(sound))
         }
     }
 
-    private fun buildFirstItem(sound: Sound): LinearLayout {
+    override fun onResume() {
+        super.onResume()
+        applyTheme()
+        updateNowPlaying()
+    }
+
+    private fun updateNowPlaying() {
+        showSounds(null)
+    }
+
+    private fun buildFirstItem(sound: Sound): FrameLayout {
+        // Outer glow container
+        val wrapper = FrameLayout(this).apply {
+            setBackgroundResource(R.drawable.bg_first_sound_outer)
+            setPadding(d(10), d(10), d(10), d(10))
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply { bottomMargin = d(14) }
+        }
+
         val outer = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             setBackgroundResource(R.drawable.bg_first_sound)
             setPadding(d(16), d(16), d(12), d(16))
-            layoutParams = lp().apply { bottomMargin = d(14) }
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            )
             setOnClickListener { launch(sound) }
         }
 
@@ -76,14 +109,18 @@ class MainActivity : AppCompatActivity() {
         outer.addView(col)
 
         // Teal play button
-        outer.addView(ImageView(this).apply {
+        // Teal play button — use theme color
+        val playImg = ImageView(this).apply {
             layoutParams = LinearLayout.LayoutParams(d(44), d(44))
             setBackgroundResource(R.drawable.bg_play_button)
+            background.setTint(ThemeManager.get(this@MainActivity).primary)
             setImageResource(R.drawable.ic_pause)
             setPadding(d(11), d(11), d(11), d(11))
-        })
+        }
+        outer.addView(playImg)
 
-        return outer
+        wrapper.addView(outer)
+        return wrapper
     }
 
     private fun buildSoundRow(sound: Sound): LinearLayout {
@@ -132,8 +169,67 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun launch(sound: Sound) {
-        AudioPlayerManager.play(sound)
+        AudioPlayerManager.play(this, sound)
         startActivity(Intent(this, PlayerActivity::class.java))
+    }
+
+    private fun applyTheme() {
+        val theme = ThemeManager.get(this)
+        binding.tabHome.setColorFilter(theme.primary)
+        window.navigationBarColor = theme.surface
+    }
+
+    private fun setupTabs() {
+        val tabs = listOf(binding.tabHome, binding.tabSounds, binding.tabNature, binding.tabFavorites)
+
+        fun selectTab(selected: ImageView) {
+            tabs.forEach { it.setColorFilter(getColor(R.color.on_surface_variant)) }
+            selected.setColorFilter(ThemeManager.get(this).primary)
+        }
+
+        binding.tabHome.setOnClickListener {
+            selectTab(binding.tabHome)
+            binding.sectionTitle.text = "RECOMMENDED FOR YOU"
+            showSounds(null)
+        }
+        binding.tabSounds.setOnClickListener {
+            selectTab(binding.tabSounds)
+            binding.sectionTitle.text = "ALL SOUNDS"
+            showSounds(null)
+        }
+        binding.tabNature.setOnClickListener {
+            selectTab(binding.tabNature)
+            binding.sectionTitle.text = "NATURE SOUNDS"
+            showSounds(SoundRepository.natureSounds())
+        }
+        binding.tabFavorites.setOnClickListener {
+            selectTab(binding.tabFavorites)
+            binding.sectionTitle.text = "YOUR FAVORITES"
+            showSounds(SoundRepository.favorites())
+        }
+    }
+
+    private fun showSounds(filtered: List<Sound>?) {
+        val list = binding.soundList
+        list.removeAllViews()
+        val sounds = filtered ?: SoundRepository.sounds
+        val playing = AudioPlayerManager.currentSound
+
+        if (sounds.isEmpty()) {
+            list.addView(tv("No sounds yet.", R.color.on_surface_variant, 14f, false).apply {
+                setPadding(0, d(24), 0, d(24))
+            })
+            return
+        }
+
+        if (playing != null && sounds.any { it.id == playing.id }) {
+            list.addView(buildFirstItem(playing))
+            sounds.filter { it.id != playing.id }.forEach { list.addView(buildSoundRow(it)) }
+        } else {
+            sounds.forEachIndexed { i, s ->
+                list.addView(if (i == 0) buildFirstItem(s) else buildSoundRow(s))
+            }
+        }
     }
 
     private fun d(v: Int) = (v * dp).toInt()

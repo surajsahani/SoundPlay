@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/surface"
-    android:orientation="vertical">
+    android:background="@color/surface">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:overScrollMode="never">
+        android:overScrollMode="never"
+        android:paddingBottom="80dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,7 +17,7 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
-            <!-- Top bar: search / AETHER / settings -->
+            <!-- Top bar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,13 +43,13 @@
                     android:textSize="13sp" />
 
                 <ImageView
+                    android:id="@+id/btn_settings"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_settings"
                     android:contentDescription="Settings" />
             </LinearLayout>
 
-            <!-- CURRENT STATE label -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +61,6 @@
                 android:textColor="@color/on_surface_variant"
                 android:textSize="9sp" />
 
-            <!-- Hero text -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,7 +73,7 @@
                 android:textColor="@color/on_surface"
                 android:textSize="32sp" />
 
-            <!-- Featured card with play overlay -->
+            <!-- Featured card -->
             <FrameLayout
                 android:id="@+id/featured_card"
                 android:layout_width="match_parent"
@@ -88,14 +86,12 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_featured_card" />
 
-                <!-- Play button centered top -->
                 <FrameLayout
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:layout_gravity="top|center_horizontal"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/bg_play_circle_white">
-
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
@@ -104,14 +100,12 @@
                         android:contentDescription="Play" />
                 </FrameLayout>
 
-                <!-- Text at bottom -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:orientation="vertical"
                     android:padding="20dp">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -120,7 +114,6 @@
                         android:textAllCaps="true"
                         android:textColor="#AAFFFFFF"
                         android:textSize="9sp" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -129,7 +122,6 @@
                         android:text="Celestial Echoes"
                         android:textColor="#FFFFFF"
                         android:textSize="22sp" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,15 +132,15 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <!-- RECOMMENDED FOR YOU -->
+            <!-- Section header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="24dp">
-
                 <TextView
+                    android:id="@+id/section_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -157,7 +149,6 @@
                     android:textAllCaps="true"
                     android:textColor="@color/on_surface_variant"
                     android:textSize="9sp" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -167,7 +158,6 @@
                     android:textSize="9sp" />
             </LinearLayout>
 
-            <!-- Sound list built programmatically -->
             <LinearLayout
                 android:id="@+id/sound_list"
                 android:layout_width="match_parent"
@@ -176,7 +166,6 @@
                 android:orientation="vertical"
                 android:paddingHorizontal="24dp" />
 
-            <!-- MINDFULNESS NOTE -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -202,41 +191,58 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom nav bar -->
-    <LinearLayout
+    <!-- Floating nav - overlays content -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/surface"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:paddingHorizontal="32dp"
+        android:paddingBottom="16dp">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="22dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_nav_home"
-            android:tint="@color/primary"
-            android:contentDescription="Home" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_floating_nav"
+            android:elevation="12dp"
+            android:gravity="center"
+            android:paddingHorizontal="16dp">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="22dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_nav_waves"
-            android:contentDescription="Waves" />
+            <ImageView
+                android:id="@+id/tab_home"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_nav_waves"
+                android:tint="@color/on_surface"
+                android:contentDescription="Home" />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="22dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_nav_drop"
-            android:contentDescription="Nature" />
+            <ImageView
+                android:id="@+id/tab_sounds"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_nav_home"
+                android:tint="@color/on_surface_variant"
+                android:contentDescription="Sounds" />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="22dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_nav_heart"
-            android:contentDescription="Favorites" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/tab_nature"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_nav_sparkle"
+                android:tint="@color/on_surface_variant"
+                android:contentDescription="Discover" />
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/tab_favorites"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_nav_profile"
+                android:tint="@color/on_surface_variant"
+                android:contentDescription="Profile" />
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>
