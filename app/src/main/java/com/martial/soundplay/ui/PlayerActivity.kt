@@ -1,5 +1,6 @@
 package com.martial.soundplay.ui
 
+import android.media.AudioManager
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
@@ -64,6 +65,15 @@ class PlayerActivity : AppCompatActivity() {
         binding.btnPlayPause.background.setTint(theme.primary)
         binding.seekBar.progressTintList = android.content.res.ColorStateList.valueOf(theme.primary)
         binding.seekBar.thumbTintList = android.content.res.ColorStateList.valueOf(theme.primaryContainer)
+
+        // Show real volume
+        val am = getSystemService(AUDIO_SERVICE) as AudioManager
+        val vol = am.getStreamVolume(AudioManager.STREAM_MUSIC)
+        val maxVol = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        binding.tvVolume.text = "${(vol * 100 / maxVol)}%"
+
+        // Show sound name
+        binding.tvSoundName.text = sound?.name ?: "--"
     }
 
     private fun updatePlayButton() {

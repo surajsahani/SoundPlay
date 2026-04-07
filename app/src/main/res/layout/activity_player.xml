@@ -172,10 +172,11 @@
             android:contentDescription="Volume" />
 
         <TextView
+            android:id="@+id/tv_volume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="65%"
+            android:text="--"
             android:textColor="@color/on_surface"
             android:textSize="11sp" />
 
@@ -187,11 +188,12 @@
             android:contentDescription="Timer" />
 
         <TextView
+            android:id="@+id/tv_sound_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:letterSpacing="0.05"
-            android:text="15M REMAINING"
+            android:text="--"
             android:textAllCaps="true"
             android:textColor="@color/on_surface"
             android:textSize="11sp" />
