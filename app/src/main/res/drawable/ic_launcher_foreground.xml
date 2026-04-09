@@ -3,12 +3,8 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <!-- Sound wave bars centered in safe zone -->
     <path
-        android:fillColor="@color/on_primary"
-        android:pathData="M54,30 L54,60 M42,38 L54,30 54,60 42,52 M66,38 L54,30 54,60 66,52"
-        android:strokeWidth="3"
-        android:strokeColor="@color/on_primary"/>
-    <path
-        android:fillColor="@color/on_primary"
-        android:pathData="M46,40v20l16,-10z"/>
+        android:fillColor="#E0FFFE"
+        android:pathData="M42,44v20h4V44h-4zM48,38v32h4V38h-4zM54,34v40h4V34h-4zM60,38v32h4V38h-4zM66,44v20h4V44h-4z"/>
 </vector>

@@ -28,7 +28,10 @@ class MainActivity : AppCompatActivity() {
 
         buildSoundList()
 
-        AudioPlayerManager.onStateChanged = { runOnUiThread { updateNowPlaying() } }
+        AudioPlayerManager.onStateChanged = { runOnUiThread {
+            updateNowPlaying()
+            updateMixingBar()
+        } }
 
         applyTheme()
 
@@ -55,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         applyTheme()
         updateNowPlaying()
+        updateMixingBar()
     }
 
     private fun updateNowPlaying() {
@@ -81,7 +85,10 @@ class MainActivity : AppCompatActivity() {
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
             )
-            setOnClickListener { launch(sound) }
+            setOnClickListener {
+                AudioPlayerManager.toggleSound(this@MainActivity, sound)
+                showSounds(null)
+            }
         }
 
         // Large icon circle
@@ -108,13 +115,13 @@ class MainActivity : AppCompatActivity() {
         })
         outer.addView(col)
 
-        // Teal play button
-        // Teal play button — use theme color
+        // Play button — show correct state
+        val isActive = AudioPlayerManager.isPlayingSound(sound.id)
         val playImg = ImageView(this).apply {
             layoutParams = LinearLayout.LayoutParams(d(44), d(44))
             setBackgroundResource(R.drawable.bg_play_button)
             background.setTint(ThemeManager.get(this@MainActivity).primary)
-            setImageResource(R.drawable.ic_pause)
+            setImageResource(if (isActive) R.drawable.ic_pause else R.drawable.ic_play)
             setPadding(d(11), d(11), d(11), d(11))
         }
         outer.addView(playImg)
@@ -124,13 +131,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buildSoundRow(sound: Sound): LinearLayout {
+        val isActive = AudioPlayerManager.isPlayingSound(sound.id)
         val row = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setBackgroundResource(R.drawable.bg_sound_row)
+            setBackgroundResource(if (isActive) R.drawable.bg_first_sound else R.drawable.bg_sound_row)
             setPadding(d(5), d(5), d(5), d(5))
             layoutParams = lp().apply { bottomMargin = d(10) }
-            setOnClickListener { launch(sound) }
+            setOnClickListener {
+                AudioPlayerManager.toggleSound(this@MainActivity, sound)
+                showSounds(null)
+            }
         }
 
         // Icon circle
@@ -157,26 +168,47 @@ class MainActivity : AppCompatActivity() {
         })
         row.addView(col)
 
-        // Small play circle
-        row.addView(ImageView(this).apply {
+        // Play/stop button
+        val playBtn = ImageView(this).apply {
             layoutParams = LinearLayout.LayoutParams(d(34), d(34)).apply { marginEnd = d(4) }
-            setBackgroundResource(R.drawable.bg_play_small)
-            setImageResource(R.drawable.ic_play_filled)
+            if (isActive) {
+                setBackgroundResource(R.drawable.bg_play_button)
+                background.setTint(ThemeManager.get(this@MainActivity).primary)
+                setImageResource(R.drawable.ic_pause)
+            } else {
+                setBackgroundResource(R.drawable.bg_play_small)
+                setImageResource(R.drawable.ic_play_filled)
+            }
             setPadding(d(9), d(9), d(9), d(9))
-        })
+        }
+        row.addView(playBtn)
 
         return row
     }
 
     private fun launch(sound: Sound) {
-        AudioPlayerManager.play(this, sound)
-        startActivity(Intent(this, PlayerActivity::class.java))
+        AudioPlayerManager.toggleSound(this, sound)
+        showSounds(null)
     }
 
     private fun applyTheme() {
         val theme = ThemeManager.get(this)
         binding.tabHome.setColorFilter(theme.primary)
         window.navigationBarColor = theme.surface
+    }
+
+    private fun updateMixingBar() {
+        val playing = AudioPlayerManager.playingSounds
+        if (playing.isNotEmpty()) {
+            binding.mixingBar.visibility = android.view.View.VISIBLE
+            binding.mixingText.text = "${playing.size} sound${if (playing.size > 1) "s" else ""} mixing"
+            binding.btnOpenMixer.setOnClickListener {
+                startActivity(Intent(this, PlayerActivity::class.java))
+            }
+            binding.btnOpenMixer.background.setTint(ThemeManager.get(this).primary)
+        } else {
+            binding.mixingBar.visibility = android.view.View.GONE
+        }
     }
 
     private fun setupTabs() {

@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient_hero"
-    android:gravity="center_horizontal"
+    android:background="@color/surface"
     android:orientation="vertical">
 
-    <!-- Top bar: X / AETHER / settings -->
+    <!-- Top bar: X / SOUND MIXER / settings -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,8 +26,8 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:letterSpacing="0.2"
-            android:text="SOUNDPLAY"
+            android:letterSpacing="0.15"
+            android:text="SOUND MIXER"
             android:textColor="@color/on_surface"
             android:textSize="13sp" />
 
@@ -39,172 +38,170 @@
             android:contentDescription="Settings" />
     </LinearLayout>
 
-    <!-- Spacer to push circle to vertical center area -->
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <!-- Icon circle with pulse rings -->
+    <!-- Sleep timer circle -->
     <FrameLayout
-        android:layout_width="260dp"
-        android:layout_height="260dp">
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
 
-        <com.martial.soundplay.ui.PulseView
-            android:id="@+id/pulse_view"
+        <com.martial.soundplay.ui.TimerRingView
+            android:id="@+id/timer_ring"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <View
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_icon_circle" />
-
-        <ImageView
-            android:id="@+id/player_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_leaf"
-            android:contentDescription="Sound icon" />
-    </FrameLayout>
-
-    <!-- Spacer -->
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <!-- Glass control panel at bottom -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:background="@drawable/bg_glass_panel"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingHorizontal="28dp"
-        android:paddingTop="28dp"
-        android:paddingBottom="24dp">
-
-        <!-- Seekbar -->
-        <SeekBar
-            android:id="@+id/seek_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxHeight="3dp"
-            android:minHeight="3dp"
-            android:progress="42"
-            android:max="100"
-            android:progressTint="@color/primary"
-            android:thumbTint="@color/primary_container"
-            android:progressBackgroundTint="@color/surface_container_highest" />
-
-        <!-- Time labels -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp">
-
-            <TextView
-                android:id="@+id/tv_current"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="12:45"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/tv_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="30:00"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="11sp" />
-        </LinearLayout>
-
-        <!-- Prev / Play / Next -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.1"
+                android:text="SLEEP TIMER"
+                android:textAllCaps="true"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/tv_timer_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="--"
+                android:textColor="@color/on_surface"
+                android:textSize="40sp" />
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_prev"
-                android:contentDescription="Previous" />
-
-            <ImageView
-                android:id="@+id/btn_play_pause"
-                android:layout_width="68dp"
-                android:layout_height="68dp"
-                android:layout_marginHorizontal="36dp"
-                android:background="@drawable/bg_play_button"
-                android:padding="20dp"
-                android:src="@drawable/ic_pause"
-                android:contentDescription="Play/Pause" />
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_next"
-                android:contentDescription="Next" />
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_timer_small"
+                android:contentDescription="Timer" />
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 
-    <!-- Bottom info: volume / timer / heart -->
+    <!-- Timer presets -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/btn_timer_15"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_play_small"
+            android:gravity="center"
+            android:paddingHorizontal="14dp"
+            android:text="15m"
+            android:textColor="@color/on_surface"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/btn_timer_30"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_play_small"
+            android:gravity="center"
+            android:paddingHorizontal="14dp"
+            android:text="30m"
+            android:textColor="@color/on_surface"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/btn_timer_45"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_play_small"
+            android:gravity="center"
+            android:paddingHorizontal="14dp"
+            android:text="45m"
+            android:textColor="@color/on_surface"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/btn_timer_60"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/bg_play_small"
+            android:gravity="center"
+            android:paddingHorizontal="14dp"
+            android:text="60m"
+            android:textColor="@color/on_surface"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Sound cards with volume sliders -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
-        android:gravity="center_vertical">
+        android:clipToPadding="false"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="8dp">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@drawable/ic_volume"
-            android:tint="@color/on_surface"
-            android:contentDescription="Volume" />
-
-        <TextView
-            android:id="@+id/tv_volume"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/mixer_list"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="--"
-            android:textColor="@color/on_surface"
-            android:textSize="11sp" />
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <!-- Bottom control bar: heart / prev / play / next / share -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/surface"
+        android:gravity="center"
+        android:paddingHorizontal="24dp">
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="28dp"
-            android:src="@drawable/ic_timer_small"
-            android:contentDescription="Timer" />
-
-        <TextView
-            android:id="@+id/tv_sound_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:letterSpacing="0.05"
-            android:text="--"
-            android:textAllCaps="true"
-            android:textColor="@color/on_surface"
-            android:textSize="11sp" />
-
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="28dp"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_heart"
-            android:tint="@color/on_surface"
+            android:tint="@color/on_surface_variant"
             android:contentDescription="Favorite" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_prev"
+            android:contentDescription="Previous" />
+
+        <ImageView
+            android:id="@+id/btn_play_pause"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_play_button"
+            android:padding="16dp"
+            android:src="@drawable/ic_pause"
+            android:contentDescription="Play/Pause" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_next"
+            android:contentDescription="Next" />
+
+        <ImageView
+            android:id="@+id/btn_stop_all"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_close_x"
+            android:tint="@color/on_surface_variant"
+            android:contentDescription="Stop all" />
     </LinearLayout>
 
 </LinearLayout>

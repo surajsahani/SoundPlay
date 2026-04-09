@@ -26,7 +26,7 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnBack.setOnClickListener { finish() }
-        binding.tvVersion.text = "SoundPlay v${packageManager.getPackageInfo(packageName, 0).versionName}"
+        binding.tvVersion.text = packageManager.getPackageInfo(packageName, 0).versionName
 
         buildThemeList()
     }
