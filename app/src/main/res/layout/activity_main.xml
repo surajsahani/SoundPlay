@@ -38,7 +38,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:letterSpacing="0.2"
-                    android:text="AETHER"
+                    android:text="SOUNDPLAY"
                     android:textColor="@color/on_surface"
                     android:textSize="13sp" />
 
