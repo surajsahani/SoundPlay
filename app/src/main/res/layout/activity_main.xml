@@ -14,8 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
+            android:orientation="vertical">
 
             <!-- Top bar -->
             <LinearLayout
@@ -37,10 +36,10 @@
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:letterSpacing="0.2"
-                    android:text="SOUNDPLAY"
+                    android:letterSpacing="0.05"
+                    android:text="SoundPlay"
                     android:textColor="@color/on_surface"
-                    android:textSize="13sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/btn_settings"
@@ -50,48 +49,97 @@
                     android:contentDescription="Settings" />
             </LinearLayout>
 
+            <!-- Greeting -->
             <TextView
+                android:id="@+id/greeting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="28dp"
                 android:paddingHorizontal="24dp"
-                android:letterSpacing="0.08"
-                android:text="CURRENT STATE"
-                android:textAllCaps="true"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="9sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:paddingHorizontal="24dp"
-                android:fontFamily="serif"
-                android:letterSpacing="-0.02"
-                android:lineSpacingMultiplier="1.15"
-                android:text="Quiet your mind\ninto the flow."
+                android:fontFamily="sans-serif"
                 android:textColor="@color/on_surface"
-                android:textSize="32sp" />
+                android:textSize="26sp" />
+
+            <!-- Mood chips -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="24dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/mood_chips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
 
             <!-- Featured card -->
             <FrameLayout
                 android:id="@+id/featured_card"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp">
 
+                <!-- Background image placeholder (teal gradient) -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_featured_card" />
+                    android:background="@drawable/bg_featured_card_image" />
 
+                <!-- Dark overlay for text readability -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_featured_overlay" />
+
+                <!-- Content -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:text="FEATURED SESSION"
+                        android:textAllCaps="true"
+                        android:textColor="#AAFFFFFF"
+                        android:textSize="9sp" />
+
+                    <TextView
+                        android:id="@+id/featured_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="serif"
+                        android:text="Deep Forest"
+                        android:textColor="#FFFFFF"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="4dp"
+                        android:text="Immersive 3D audio landscape recorded in the heart of the Pacific Northwest."
+                        android:textColor="#BBFFFFFF"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <!-- Play button -->
                 <FrameLayout
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:layout_gravity="top|center_horizontal"
-                    android:layout_marginTop="24dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="20dp"
                     android:background="@drawable/bg_play_circle_white">
+
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
@@ -99,46 +147,16 @@
                         android:src="@drawable/ic_play_white"
                         android:contentDescription="Play" />
                 </FrameLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:letterSpacing="0.08"
-                        android:text="DAILY RITUAL"
-                        android:textAllCaps="true"
-                        android:textColor="#AAFFFFFF"
-                        android:textSize="9sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="serif"
-                        android:text="Celestial Echoes"
-                        android:textColor="#FFFFFF"
-                        android:textSize="22sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Deep focus meditation with singing bowls."
-                        android:textColor="#BBFFFFFF"
-                        android:textSize="11sp" />
-                </LinearLayout>
             </FrameLayout>
 
-            <!-- Section header -->
+            <!-- Recommended section header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="28dp"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="24dp">
+
                 <TextView
                     android:id="@+id/section_title"
                     android:layout_width="0dp"
@@ -149,6 +167,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/on_surface_variant"
                     android:textSize="9sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -158,40 +177,34 @@
                     android:textSize="9sp" />
             </LinearLayout>
 
+            <!-- Sound list -->
             <LinearLayout
                 android:id="@+id/sound_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:orientation="vertical"
                 android:paddingHorizontal="24dp" />
 
+            <!-- Quote -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:paddingHorizontal="24dp"
-                android:letterSpacing="0.08"
-                android:text="MINDFULNESS NOTE"
-                android:textAllCaps="true"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="9sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingHorizontal="24dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="16dp"
+                android:paddingHorizontal="40dp"
                 android:fontFamily="serif"
-                android:lineSpacingMultiplier="1.6"
-                android:text="Sound is not just a frequency, it is a vessel for presence. Notice how the space between the notes allows for deeper reflection."
-                android:textColor="@color/on_surface"
-                android:textSize="14sp" />
+                android:gravity="center"
+                android:text="&quot;Presence is the greatest gift.&quot;"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="14sp"
+                android:textStyle="italic" />
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Now mixing bar -->
+    <!-- Mixing bar -->
     <LinearLayout
         android:id="@+id/mixing_bar"
         android:layout_width="match_parent"
@@ -244,7 +257,7 @@
             <ImageView
                 android:id="@+id/tab_home"
                 android:layout_width="0dp"
-                android:layout_height="24dp"
+                android:layout_height="22dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_nav_waves"
                 android:tint="@color/on_surface"
@@ -253,25 +266,25 @@
             <ImageView
                 android:id="@+id/tab_sounds"
                 android:layout_width="0dp"
-                android:layout_height="24dp"
+                android:layout_height="22dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_nav_home"
+                android:src="@drawable/ic_nav_sparkle"
                 android:tint="@color/on_surface_variant"
                 android:contentDescription="Sounds" />
 
             <ImageView
                 android:id="@+id/tab_nature"
                 android:layout_width="0dp"
-                android:layout_height="24dp"
+                android:layout_height="22dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_nav_sparkle"
+                android:src="@drawable/ic_timer_small"
                 android:tint="@color/on_surface_variant"
-                android:contentDescription="Discover" />
+                android:contentDescription="Timer" />
 
             <ImageView
                 android:id="@+id/tab_favorites"
                 android:layout_width="0dp"
-                android:layout_height="24dp"
+                android:layout_height="22dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_nav_profile"
                 android:tint="@color/on_surface_variant"
