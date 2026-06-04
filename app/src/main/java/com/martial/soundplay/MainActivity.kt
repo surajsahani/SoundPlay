@@ -18,6 +18,8 @@ import com.martial.soundplay.data.Sound
 import com.martial.soundplay.data.SoundRepository
 import com.martial.soundplay.databinding.ActivityMainBinding
 import com.martial.soundplay.ui.PlayerActivity
+import com.martial.soundplay.ui.AppReviewHelper
+import com.martial.soundplay.ui.AppUpdateHelper
 import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
@@ -26,12 +28,23 @@ class MainActivity : AppCompatActivity() {
     private val dp by lazy { resources.displayMetrics.density }
     private var selectedMood = "Sleep"
     private val moods = listOf("Sleep", "Focus", "Relax", "Meditate")
+    private lateinit var appUpdateHelper: AppUpdateHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        val isDark = ThemeManager.isDarkMode(this)
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDark) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // App Update and Review
+        appUpdateHelper = AppUpdateHelper(this)
+        appUpdateHelper.checkForUpdates()
+        AppReviewHelper.incrementLaunchCount(this)
+        AppReviewHelper.checkAndShowReviewPrompt(this)
 
         setGreeting()
         buildMoodChips()
@@ -104,6 +117,7 @@ class MainActivity : AppCompatActivity() {
         applyTheme()
         showSounds(null)
         updateMixingBar()
+        appUpdateHelper.checkStatusOnResume()
     }
 
     private fun showSounds(filtered: List<Sound>?) {
@@ -241,5 +255,10 @@ class MainActivity : AppCompatActivity() {
         setTextColor(getColor(colorRes))
         textSize = size
         if (medium) typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        appUpdateHelper.onDestroy()
     }
 }

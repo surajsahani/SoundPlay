@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 object ThemeManager {
     private const val PREF_NAME = "aether_prefs"
     private const val KEY_THEME = "theme"
+    private const val KEY_DARK_MODE = "dark_mode"
 
     data class AppTheme(
         val name: String,
@@ -29,7 +30,29 @@ object ThemeManager {
 
     fun getIndex(context: Context): Int = prefs(context).getInt(KEY_THEME, 0)
 
-    fun get(context: Context): AppTheme = themes[getIndex(context)]
+    fun isDarkMode(context: Context): Boolean = prefs(context).getBoolean(KEY_DARK_MODE, false)
+
+    fun setDarkMode(context: Context, enabled: Boolean) {
+        prefs(context).edit().putBoolean(KEY_DARK_MODE, enabled).apply()
+    }
+
+    fun get(context: Context): AppTheme {
+        val index = getIndex(context)
+        val isDark = isDarkMode(context)
+        val theme = themes[index]
+        return if (isDark) {
+            when (index) {
+                0 -> AppTheme("Teal Mist", 0xFF4DB6AC.toInt(), 0xFF1F4D4E.toInt(), 0xFF142728.toInt(), 0xFF0B1516.toInt())
+                1 -> AppTheme("Lavender", 0xFFB39DDB.toInt(), 0xFF3C3263.toInt(), 0xFF181324.toInt(), 0xFF110D1A.toInt())
+                2 -> AppTheme("Rose", 0xFFF48FB1.toInt(), 0xFF602A36.toInt(), 0xFF251419.toInt(), 0xFF1A0D10.toInt())
+                3 -> AppTheme("Forest", 0xFF81C784.toInt(), 0xFF254B25.toInt(), 0xFF132013.toInt(), 0xFF0D170D.toInt())
+                4 -> AppTheme("Amber", 0xFFFFB74D.toInt(), 0xFF4E371C.toInt(), 0xFF21180F.toInt(), 0xFF160F0A.toInt())
+                else -> theme
+            }
+        } else {
+            theme
+        }
+    }
 
     private fun prefs(context: Context): SharedPreferences =
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Aetherial Minimalism: Calming Night Palette (Optimized for Dark Theme) -->
+    <color name="primary">#4DB6AC</color>
+    <color name="on_primary">#0B1516</color>
+    <color name="primary_container">#1F4D4E</color>
+    <color name="on_primary_container">#AFEEED</color>
+    <color name="primary_fixed_dim">#398C8E</color>
+
+    <color name="surface">#0B1516</color>
+    <color name="surface_container_lowest">#101F20</color>
+    <color name="surface_container_low">#142728</color>
+    <color name="surface_container">#193132</color>
+    <color name="surface_container_high">#1E3A3C</color>
+    <color name="surface_container_highest">#284D50</color>
+
+    <color name="on_surface">#E6F2F2</color>
+    <color name="on_surface_variant">#99ADAD</color>
+    <color name="outline_variant">#384D4F</color>
+
+    <!-- Gradient endpoints for night background animations -->
+    <color name="gradient_start">#1F4D4E</color>
+    <color name="gradient_end">#0B1516</color>
+
+    <!-- Glass overlay for dark theme -->
+    <color name="glass_white_60">#1CFFFFFF</color>
+    <color name="shadow_4_percent">#1F000000</color>
+</resources>

@@ -20,13 +20,34 @@ class SettingsActivity : AppCompatActivity() {
     private val dp by lazy { resources.displayMetrics.density }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        val isDark = ThemeManager.isDarkMode(this)
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDark) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.btnBack.setOnClickListener { finish() }
         binding.tvVersion.text = packageManager.getPackageInfo(packageName, 0).versionName
+
+        // Dark Mode toggle logic
+        binding.switchDarkMode.isChecked = isDark
+        binding.btnDarkModeToggle.setOnClickListener {
+            val nextDark = !ThemeManager.isDarkMode(this)
+            ThemeManager.setDarkMode(this, nextDark)
+            AppCompatDelegate.setDefaultNightMode(
+                if (nextDark) AppCompatDelegate.MODE_NIGHT_YES
+                else AppCompatDelegate.MODE_NIGHT_NO
+            )
+            recreate()
+        }
+
+        // Rate App click listener
+        binding.btnRateApp.setOnClickListener {
+            AppReviewHelper.launchInAppReview(this)
+        }
 
         buildThemeList()
     }
