@@ -30,6 +30,7 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applyTheme()
 
         val theme = ThemeManager.get(this)
 
@@ -95,6 +96,7 @@ class PlayerActivity : AppCompatActivity() {
         val card = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundResource(R.drawable.bg_first_sound)
+            background.setTint(theme.surfaceLow)
             setPadding(d(16), d(14), d(16), d(14))
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -200,5 +202,18 @@ class PlayerActivity : AppCompatActivity() {
         AudioPlayerManager.onProgressChanged = null
         AudioPlayerManager.onTimerTick = null
         AudioPlayerManager.onTimerFinish = null
+    }
+
+    private fun applyTheme() {
+        val theme = ThemeManager.get(this)
+        binding.root.setBackgroundColor(theme.surface)
+        binding.bottomControlBar.setBackgroundColor(theme.surface)
+        binding.btnPlayPause.background.setTint(theme.primary)
+        binding.btnTimer15.background.setTint(theme.surfaceLow)
+        binding.btnTimer30.background.setTint(theme.surfaceLow)
+        binding.btnTimer45.background.setTint(theme.surfaceLow)
+        binding.btnTimer60.background.setTint(theme.surfaceLow)
+        @Suppress("DEPRECATION")
+        window.navigationBarColor = theme.surface
     }
 }

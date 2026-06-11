@@ -157,6 +157,7 @@
 
     <!-- Bottom control bar: heart / prev / play / next / share -->
     <LinearLayout
+        android:id="@+id/bottom_control_bar"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@color/surface"

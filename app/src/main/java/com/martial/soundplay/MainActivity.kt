@@ -141,6 +141,7 @@ class MainActivity : AppCompatActivity() {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
             setBackgroundResource(R.drawable.bg_sound_row_card)
+            background.setTint(theme.surfaceLow)
             setPadding(d(12), d(12), d(12), d(12))
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -202,6 +203,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun applyTheme() {
         val theme = ThemeManager.get(this)
+        binding.root.setBackgroundColor(theme.surface)
         binding.tabHome.setColorFilter(theme.primary)
         @Suppress("DEPRECATION")
         window.navigationBarColor = theme.surface

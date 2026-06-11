@@ -28,6 +28,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applyTheme()
 
         binding.btnBack.setOnClickListener { finish() }
         binding.tvVersion.text = packageManager.getPackageInfo(packageName, 0).versionName
@@ -49,17 +50,23 @@ class SettingsActivity : AppCompatActivity() {
             AppReviewHelper.launchInAppReview(this)
         }
 
+        val activeTheme = ThemeManager.get(this)
+        binding.btnDarkModeToggle.background.setTint(activeTheme.surfaceLow)
+        binding.btnRateApp.background.setTint(activeTheme.surfaceLow)
+
         buildThemeList()
     }
 
     private fun buildThemeList() {
         val current = ThemeManager.getIndex(this)
+        val activeTheme = ThemeManager.get(this)
 
         ThemeManager.themes.forEachIndexed { index, theme ->
             val row = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
                 setBackgroundResource(R.drawable.bg_sound_row)
+                background.setTint(activeTheme.surfaceLow)
                 setPadding(d(12), d(12), d(12), d(12))
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -110,4 +117,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun d(v: Int) = (v * dp).toInt()
+
+    private fun applyTheme() {
+        val theme = ThemeManager.get(this)
+        binding.root.setBackgroundColor(theme.surface)
+        @Suppress("DEPRECATION")
+        window.navigationBarColor = theme.surface
+    }
 }
