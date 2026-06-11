@@ -1,10 +1,12 @@
 package com.martial.soundplay.audio
 
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
+import androidx.core.content.ContextCompat
 import com.martial.soundplay.data.Sound
 
 object AudioPlayerManager {
@@ -19,6 +21,20 @@ object AudioPlayerManager {
     var onTimerTick: ((remaining: Long) -> Unit)? = null
     var onTimerFinish: (() -> Unit)? = null
 
+    private var appContext: Context? = null
+
+    private fun updateService(action: String) {
+        val context = appContext ?: return
+        val intent = Intent(context, AudioPlaybackService::class.java).apply {
+            this.action = action
+        }
+        try {
+            ContextCompat.startForegroundService(context, intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private var sleepTimer: CountDownTimer? = null
     var timerRemaining: Long = 0L
         private set
@@ -32,12 +48,14 @@ object AudioPlayerManager {
     fun getVolume(soundId: Int): Float = activeVolumes[soundId] ?: 0.7f
 
     fun toggleSound(context: Context, sound: Sound) {
+        if (appContext == null) appContext = context.applicationContext
         if (activePlayers.containsKey(sound.id)) {
             stopSound(sound.id)
         } else {
             playSound(context, sound)
         }
         onStateChanged?.invoke()
+        updateService(AudioPlaybackService.ACTION_UPDATE)
     }
 
     private fun playSound(context: Context, sound: Sound) {
@@ -77,6 +95,7 @@ object AudioPlayerManager {
         activeVolumes.clear()
         cancelTimer()
         onStateChanged?.invoke()
+        updateService(AudioPlaybackService.ACTION_STOP)
     }
 
     // Sleep timer
@@ -106,9 +125,11 @@ object AudioPlayerManager {
 
     // Legacy compat for player screen
     fun play(context: Context, sound: Sound) {
+        if (appContext == null) appContext = context.applicationContext
         if (!isPlayingSound(sound.id)) {
             playSound(context, sound)
             onStateChanged?.invoke()
+            updateService(AudioPlaybackService.ACTION_UPDATE)
         }
     }
 
@@ -119,6 +140,7 @@ object AudioPlayerManager {
             activePlayers.values.forEach { it.start() }
         }
         onStateChanged?.invoke()
+        updateService(AudioPlaybackService.ACTION_UPDATE)
     }
 
     fun seekTo(position: Int) {

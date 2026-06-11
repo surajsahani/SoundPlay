@@ -51,4 +51,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.play:review-ktx:2.0.2'
     implementation 'com.google.android.play:app-update-ktx:2.1.0'
+    implementation 'androidx.media:media:1.7.0'
 }

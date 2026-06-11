@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_sound_app"
@@ -26,6 +29,11 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:theme="@style/Theme.SoundPlay"
+            android:exported="false" />
+
+        <service
+            android:name=".audio.AudioPlaybackService"
+            android:foregroundServiceType="mediaPlayback"
             android:exported="false" />
     </application>
 
