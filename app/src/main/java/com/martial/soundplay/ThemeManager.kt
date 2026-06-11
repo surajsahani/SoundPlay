@@ -17,7 +17,7 @@ object ThemeManager {
     )
 
     val themes = listOf(
-        AppTheme("Teal Mist", 0xFF276869.toInt(), 0xFFAFEEED.toInt(), 0xFFF0F4F4.toInt(), 0xFFF8FAFA.toInt()),
+        AppTheme("Default (Teal Mist)", 0xFF276869.toInt(), 0xFFAFEEED.toInt(), 0xFFF0F4F4.toInt(), 0xFFF8FAFA.toInt()),
         AppTheme("Lavender", 0xFF5B4A8A.toInt(), 0xFFD8CCFF.toInt(), 0xFFF3F0FA.toInt(), 0xFFFAF8FF.toInt()),
         AppTheme("Rose", 0xFF8A4A5B.toInt(), 0xFFFFCCD8.toInt(), 0xFFFAF0F3.toInt(), 0xFFFFF8FA.toInt()),
         AppTheme("Forest", 0xFF3A6B3A.toInt(), 0xFFB8E6B8.toInt(), 0xFFF0F5F0.toInt(), 0xFFF8FAF8.toInt()),
@@ -42,7 +42,7 @@ object ThemeManager {
         val theme = themes[index]
         return if (isDark) {
             when (index) {
-                0 -> AppTheme("Teal Mist", 0xFF4DB6AC.toInt(), 0xFF1F4D4E.toInt(), 0xFF142728.toInt(), 0xFF0B1516.toInt())
+                0 -> AppTheme("Default (Teal Mist)", 0xFF4DB6AC.toInt(), 0xFF1F4D4E.toInt(), 0xFF142728.toInt(), 0xFF0B1516.toInt())
                 1 -> AppTheme("Lavender", 0xFFB39DDB.toInt(), 0xFF3C3263.toInt(), 0xFF181324.toInt(), 0xFF110D1A.toInt())
                 2 -> AppTheme("Rose", 0xFFF48FB1.toInt(), 0xFF602A36.toInt(), 0xFF251419.toInt(), 0xFF1A0D10.toInt())
                 3 -> AppTheme("Forest", 0xFF81C784.toInt(), 0xFF254B25.toInt(), 0xFF132013.toInt(), 0xFF0D170D.toInt())
