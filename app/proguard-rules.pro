@@ -22,3 +22,6 @@
 
 # Keep Play Core classes for in-app updates
 -keep class com.google.android.play.core.** { *; }
+
+# Ignore missing annotation class warnings from Play Core ktx
+-dontwarn com.google.android.gms.common.annotation.NoNullnessRewrite
