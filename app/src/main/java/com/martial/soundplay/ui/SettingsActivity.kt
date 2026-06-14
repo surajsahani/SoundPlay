@@ -50,9 +50,26 @@ class SettingsActivity : AppCompatActivity() {
             AppReviewHelper.launchInAppReview(this)
         }
 
+        // Redeem Promo Code click listener
+        binding.btnRedeemCode.setOnClickListener {
+            try {
+                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                    data = android.net.Uri.parse("https://play.google.com/store/redeem")
+                    setPackage("com.android.vending")
+                }
+                startActivity(intent)
+            } catch (e: android.content.ActivityNotFoundException) {
+                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                    data = android.net.Uri.parse("https://play.google.com/store/redeem")
+                }
+                startActivity(intent)
+            }
+        }
+
         val activeTheme = ThemeManager.get(this)
         binding.btnDarkModeToggle.background.setTint(activeTheme.surfaceLow)
         binding.btnRateApp.background.setTint(activeTheme.surfaceLow)
+        binding.btnRedeemCode.background.setTint(activeTheme.surfaceLow)
 
         buildThemeList()
     }

@@ -119,6 +119,33 @@
             android:tint="@color/on_surface_variant" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/btn_redeem_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_sound_row"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Redeem Promo Code"
+            android:textColor="@color/on_surface"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_nav_sparkle"
+            android:contentDescription="Redeem Promo Code"
+            android:tint="@color/on_surface_variant" />
+    </LinearLayout>
+
     <!-- About section -->
     <TextView
         android:layout_width="wrap_content"
