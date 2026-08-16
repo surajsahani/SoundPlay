@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace "com.martial.soundplay"
-    compileSdkVersion 35
+    compileSdkVersion 36
 
     signingConfigs {
         release {
@@ -20,9 +20,9 @@ android {
     defaultConfig {
         applicationId "com.martial.soundplay2"
         minSdkVersion 23
-        targetSdkVersion 35
-        versionCode 23
-        versionName "2.3"
+        targetSdkVersion 36
+        versionCode 25
+        versionName "2.5"
     }
 
     buildTypes {
